@@ -2,7 +2,7 @@
 name: Architect
 description: "Erstellt Architecture Decision Records (ADRs), arc42 Dokumentation und atomare ISSUEs. Generiert plan-context.md für Spec Kit Integration."
 tools: ['codebase', 'editFiles', 'fetch', 'githubRepo', 'runCommands', 'search']
-model: claude-sonnet-4-20250514
+model: claude-sonnet-4.5
 ---
 
 # Architect Agent Mode

@@ -20,10 +20,9 @@
     }
   },
 
-  // Hier: Python-Umgebung + Spec Kit Check
-  "postCreateCommand": "uv sync && specify check || true",
+  "postCreateCommand": "uv sync && uv tool install specify-cli --from git+https://github.com/github/spec-kit.git && specify check || true",
 
   "containerEnv": {
-    // Platz für API-Keys etc.
+    // hier später z.B. OPENAI_API_KEY, GITHUB_TOKEN etc.
   }
 }
