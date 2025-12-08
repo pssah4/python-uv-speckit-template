@@ -2,7 +2,7 @@
 
 ## 📋 Kurze Antwort auf deine Frage
 
-**Ja, du musst einige Anpassungen machen, aber sie sind minimal:**
+**Ja, du musst einige Anpassungen machen, aber sie sind minimal :**
 
 | Was | Warum | Aufwand |
 |-----|-------|---------|
