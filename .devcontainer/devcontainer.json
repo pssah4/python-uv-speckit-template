@@ -1,0 +1,32 @@
+{
+  "name": "Python uv Base Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  // Der Containerpfad entspricht dem Projektordnernamen
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  // Lokalen Ordner in den Container einhängen
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.debugger",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "github.copilot"
+      ]
+    }
+  },
+
+  // Umgebung nach dem Bauen konfigurieren
+  "postCreateCommand": "uv sync",
+
+  "containerEnv": {
+    // Hier später z.B. OPENAI_API_KEY etc.
+  }
+}

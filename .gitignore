@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+
+# uv / venv
+.venv/
+uv.lock
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
