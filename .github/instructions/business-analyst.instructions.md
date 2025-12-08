@@ -1,394 +1,439 @@
 ---
 name: Business Analyst Quality Standards
-description: "Qualitätsstandards für Business Analysis Dokumente - Sichert vollständige Übergabe an Requirements Engineer"
+applyTo: "docs/business-analysis*.md, docs/constitution-draft.md"
+description: "Qualitätsregeln für Business Analysis Dokumente und Constitution Drafts"
 ---
 
-# Business Analyst - Quality Standards für BA-Dokumente
+# Business Analyst - Quality Standards
 
-Diese Instructions definieren die Qualitätsstandards für Business Analysis Dokumente und stellen sicher, dass der Requirements Engineer alle benötigten Informationen erhält.
+Diese Instructions werden automatisch angewendet beim Arbeiten mit Business Analysis Dokumenten.
 
-> **Ziel:** Der Requirements Engineer kann **sofort** mit Epic/Feature-Erstellung starten, ohne Rückfragen an den BA.
+---
+
+## 📁 Unterstützte Dateitypen
+
+```
+✅ docs/business-analysis.md
+✅ docs/business-analysis-*.md
+✅ docs/constitution-draft.md
+```
 
 ---
 
 ## 🎯 Qualitätsziele
 
 ### Für den Requirements Engineer
-Der RE muss aus dem BA-Dokument **direkt** ableiten können:
-- ✅ Wer sind die User? (→ User Stories)
-- ✅ Was ist das Problem? (→ Problem Statement)
-- ✅ Was sind die Needs? (→ Functional Requirements)
-- ✅ Was ist die Lösung? (→ Features)
-- ✅ Was ist In-Scope/Out-of-Scope? (→ Epic Boundaries)
+Der RE muss **sofort starten** können mit:
+- ✅ Klarem Problem Statement
+- ✅ Identifizierten User Personas
+- ✅ Priorisierten Key Features
+- ✅ Dokumentierten Constraints
+- ✅ Definiertem Scope (In/Out)
+
+### Für Spec Kit Integration
+Wenn Spec Kit genutzt wird:
+- ✅ constitution-draft.md für `/speckit.constitution`
+- ✅ Projekt-weite Prinzipien extrahiert
+- ✅ Non-Negotiables identifiziert
 
 ---
 
-## 📋 Pflicht-Sections nach Scope
+## 🔍 Validierungen nach Scope
 
-### Simple Test (Minimal)
+### Simple Test (Scope A)
 
-```markdown
-PFLICHT-SECTIONS:
-✅ 1. Executive Summary (1 Absatz)
-✅ 2. Problem Statement (kurz)
-✅ 4. User & Zielgruppe (primäre Gruppe)
-✅ 5. Needs (Funktionale Jobs, Pains)
-✅ 9. Lösungsidee (Kernidee, Key Features)
-✅ 11. Scope (In-Scope nur)
-
-OPTIONAL:
-○ 3. Stakeholder-Analyse
-○ 6. Aktueller Prozess
-○ 7. Daten & Integration
-○ 10. Value Proposition
-○ 12. Erfolgsmetriken
+**Minimum erforderlich:**
+```
+✅ Problem Statement (1-2 Sätze)
+✅ User Context (wer nutzt es?)
+✅ Hauptfunktionalität (was soll es tun?)
+✅ Erfolgskriterien (wann ist es fertig?)
 ```
 
-### Proof of Concept (Moderat)
-
+**Validierungs-Check:**
 ```markdown
-PFLICHT-SECTIONS:
-✅ 1. Executive Summary (1-2 Absätze)
-✅ 2. Problem Statement (vollständig)
-✅ 3. Stakeholder-Analyse (Tabelle)
-✅ 4. User & Zielgruppe (primär + sekundär)
-✅ 5. Needs (Jobs, Pains, Gains)
-✅ 6. Aktueller Prozess (Beschreibung)
-✅ 7. Daten & Integration (Übersicht)
-✅ 8. How Might We (mind. 1)
-✅ 9. Lösungsidee (Kernidee, Features)
-✅ 10. Value Proposition
-✅ 11. Scope (In + Out + Annahmen)
+CHECK für Simple Test:
 
-OPTIONAL:
-○ 12. Erfolgsmetriken (empfohlen)
+1. ✅ Problem klar beschrieben?
+2. ✅ User identifiziert?
+3. ✅ Funktionalität definiert?
+4. ✅ Definition of Done vorhanden?
+
+Score: [X]/4 - Minimum 3/4 für RE-Ready
 ```
 
-### MVP (Vollständig)
+### Proof of Concept (Scope B)
 
-```markdown
-PFLICHT-SECTIONS (ALLE):
-✅ 1. Executive Summary (2-3 Absätze)
-✅ 2. Problem Statement (mit Auswirkungen quantifiziert)
-✅ 3. Stakeholder-Analyse (vollständige Tabelle)
-✅ 4. User & Zielgruppe (Personas mit Details)
-✅ 5. Needs (Jobs, Pains, Gains - detailliert)
-✅ 6. Aktueller Prozess (mit Pain Points)
-✅ 7. Daten & Integration (detailliert)
-✅ 8. How Might We (mind. 2)
-✅ 9. Lösungsidee (Kernidee, Features, Wow-Feature)
-✅ 10. Value Proposition (vollständig)
-✅ 11. Scope (In + Out + Annahmen + Constraints)
-✅ 12. Erfolgsmetriken (KPIs mit Zielwerten)
-✅ 13. Nächste Schritte (mit offenen Fragen)
+**Erforderliche Sections:**
+```
+✅ Executive Summary
+✅ Problem Statement
+✅ User Analysis (mind. 1 Persona)
+✅ Hypothesis (was validieren wir?)
+✅ Success Criteria
+✅ Scope (In/Out)
+✅ Constraints
+✅ Risks (technische Risiken)
+✅ Akzeptable Technical Debt
 ```
 
----
-
-## 🔍 Section-Validierungen
-
-### 1. Executive Summary
-
+**Validierungs-Check:**
 ```markdown
-CHECK:
-✅ Problem in einem Satz beschrieben?
-✅ Lösungsidee in einem Satz beschrieben?
-✅ Erwarteter Impact/Nutzen genannt?
+CHECK für PoC:
 
-BEISPIEL - GUT:
-"Das manuelle Erstellen von Berichten kostet das Team 10h/Woche. 
-Eine automatisierte Lösung soll dies auf 1h reduzieren und 
-Fehlerquote von 15% auf unter 2% senken."
+1. ✅ Hypothesis klar formuliert?
+2. ✅ Technische Risiken identifiziert?
+3. ✅ Erfolgskriterien messbar?
+4. ✅ Out-of-Scope explizit?
+5. ✅ Akzeptable Shortcuts dokumentiert?
 
-BEISPIEL - SCHLECHT:
-"Wir wollen die Berichtserstellung verbessern."
+Score: [X]/5 - Minimum 4/5 für RE-Ready
 ```
 
-### 2. Problem Statement
+### Minimum Viable Product (Scope C)
 
-```markdown
-CHECK:
-✅ Kontext/Hintergrund klar?
-✅ Spezifisches Problem definiert (nicht vage)?
-✅ Auswirkungen beschrieben? (PoC/MVP: quantifiziert)
-
-BEISPIEL - GUT:
-"Kontext: Sales-Team erstellt wöchentliche Pipeline-Reports.
-Problem: Manuelle Datenaggregation aus 3 Systemen dauert 2h pro Report.
-Auswirkung: 10h/Woche Zeitverlust, 15% Fehlerquote, verzögerte Entscheidungen."
-
-BEISPIEL - SCHLECHT:
-"Das Reporting ist ineffizient und muss verbessert werden."
+**Vollständige Sections erforderlich:**
+```
+✅ Executive Summary
+✅ Business Context (As-Is, To-Be, Gap)
+✅ Stakeholder Analysis (Map + Key Stakeholders)
+✅ User Analysis (2-3 Personas)
+✅ Problem Analysis (Statement, Root Causes, Impact)
+✅ Goals & Objectives (Business Goals, User Goals, KPIs)
+✅ Scope Definition (In, Out, Assumptions, Constraints)
+✅ Risk Assessment
+✅ Requirements Overview (Functional, Non-Functional, Key Features)
+✅ Next Steps
 ```
 
-### 4. User & Zielgruppe
-
+**Validierungs-Check:**
 ```markdown
-CHECK:
-✅ Primäre Nutzergruppe identifiziert?
-✅ Charakteristika beschrieben? (Tech-Level, Kontext)
-✅ Aktuelle Situation beschrieben?
-✅ Frustrationen/Pain Points genannt?
+CHECK für MVP:
 
-BEISPIEL - GUT:
-"Primäre Nutzer: Sales Manager (5 Personen)
-Charakteristika: Business User, Excel-versiert, kein SQL
-Aktuelle Situation: Kopieren Daten manuell aus CRM, ERP, Excel
-Frustrationen: Zeitaufwand, Fehleranfälligkeit, keine Echtzeit-Daten"
+1. ✅ Business Context vollständig?
+2. ✅ Stakeholder Map vorhanden?
+3. ✅ Mind. 2 User Personas?
+4. ✅ KPIs mit Baseline + Target?
+5. ✅ In-Scope vs Out-of-Scope explizit?
+6. ✅ Constraints dokumentiert?
+7. ✅ Risiken identifiziert?
+8. ✅ Key Features priorisiert (P0/P1/P2)?
 
-BEISPIEL - SCHLECHT:
-"User sind Sales-Leute die Reports brauchen."
-```
-
-### 5. Needs & Jobs to be Done
-
-```markdown
-CHECK:
-✅ Mindestens 2-3 funktionale Jobs genannt?
-✅ Mindestens 2-3 Pains identifiziert?
-✅ Mindestens 2-3 Gains beschrieben?
-
-FORMAT:
-Jobs: "Als [Rolle] muss ich [Tätigkeit] um [Ziel] zu erreichen"
-Pains: Konkrete Hindernisse, Frustrationen, Risiken
-Gains: Gewünschte Outcomes, Verbesserungen
-```
-
-### 8. How Might We
-
-```markdown
-CHECK:
-✅ Mindestens 1 HMW-Frage formuliert? (PoC/MVP: mind. 2)
-✅ Format: "Wie könnten wir [User] helfen, [Job] zu erledigen, ohne [Pain]?"
-✅ Primäre HMW-Frage markiert?
-
-BEISPIEL - GUT:
-"Wie könnten wir Sales Managern helfen, Pipeline-Reports zu erstellen, 
-ohne manuell Daten aus 3 Systemen zusammenzuführen?"
-
-BEISPIEL - SCHLECHT:
-"Wie können wir Reporting verbessern?"
-```
-
-### 9. Lösungsidee
-
-```markdown
-CHECK:
-✅ Kernidee in 2-3 Sätzen beschrieben?
-✅ High-Level Concept/Analogie vorhanden? (MVP)
-✅ Key Features gelistet? (mind. 3)
-✅ Wow-Feature identifiziert? (MVP)
-
-KEY FEATURES FORMAT:
-1. **[Feature Name]**: [1-Satz Beschreibung]
-   - Löst: [Welchen Pain/Job]
-
-BEISPIEL:
-1. **Automatische Datenaggregation**: Zieht Daten aus CRM, ERP, Excel zusammen
-   - Löst: Manuelles Kopieren (2h → 5min)
-```
-
-### 10. Value Proposition
-
-```markdown
-CHECK:
-✅ Alle Platzhalter ausgefüllt?
-✅ Differentiator klar?
-
-FORMAT:
-"Für [User], die [Problem] haben, 
-ist unsere Lösung ein [Produkt-Kategorie], 
-das [Key Benefit] bietet. 
-Anders als [Alternative] ermöglicht unsere Lösung [Differentiator]."
-
-BEISPIEL - GUT:
-"Für Sales Manager, die wöchentlich Pipeline-Reports erstellen müssen,
-ist unsere Lösung ein automatisiertes Reporting-Dashboard,
-das Echtzeit-Daten aus allen Systemen aggregiert.
-Anders als manuelle Excel-Reports ermöglicht unsere Lösung 
-sofortige Aktualisierung und eliminiert Übertragungsfehler."
-```
-
-### 11. Scope & Priorisierung
-
-```markdown
-CHECK:
-✅ In-Scope klar definiert? (mind. 3 Items)
-✅ Out-of-Scope explizit genannt? (mind. 2 Items)
-✅ Annahmen dokumentiert?
-✅ Constraints genannt? (PoC/MVP)
-
-WICHTIG FÜR RE:
-- In-Scope → wird zu Epics/Features
-- Out-of-Scope → explizit NICHT Teil des Projekts
-- Annahmen → müssen validiert werden
-- Constraints → beeinflussen Architektur-Entscheidungen
-```
-
-### 12. Erfolgsmetriken (PoC/MVP)
-
-```markdown
-CHECK:
-✅ Mindestens 2-3 KPIs definiert?
-✅ Baseline-Wert genannt? (aktueller Zustand)
-✅ Zielwert definiert?
-
-BEISPIEL - GUT:
-- **Report-Erstellungszeit**: 2h → 5min (-96%)
-- **Fehlerquote**: 15% → <2%
-- **Aktualität**: Wöchentlich → Echtzeit
-
-BEISPIEL - SCHLECHT:
-- "Schnellere Reports"
-- "Weniger Fehler"
+Score: [X]/8 - Minimum 7/8 für RE-Ready
 ```
 
 ---
 
-## ✅ Übergabe-Checkliste an Requirements Engineer
+## 🏛️ Constitution Draft Validierung (Spec Kit)
 
-Vor Übergabe an RE, validiere:
+### Wann erforderlich?
+- User hat bestätigt, dass Spec Kit genutzt wird
+- ODER User fragt explizit nach constitution-draft.md
 
-### Minimal (Simple Test)
-```
-- [ ] Problem ist klar und spezifisch
-- [ ] Mindestens eine User-Gruppe definiert
-- [ ] Key Features (High-Level) gelistet
-- [ ] In-Scope definiert
-```
-
-### Standard (PoC)
-```
-- [ ] Problem ist klar und spezifisch
-- [ ] User-Gruppe(n) mit Charakteristika definiert
-- [ ] Needs/Pains/Gains erfasst
-- [ ] How Might We-Frage formuliert
-- [ ] Lösungsidee mit Key Features beschrieben
-- [ ] Value Proposition formuliert
-- [ ] In-Scope und Out-of-Scope definiert
-- [ ] Annahmen dokumentiert
-```
-
-### Vollständig (MVP)
-```
-- [ ] Executive Summary enthält Problem, Lösung, Impact
-- [ ] Problem Statement mit quantifizierten Auswirkungen
-- [ ] Stakeholder-Tabelle vollständig
-- [ ] User Personas mit Details
-- [ ] Jobs/Pains/Gains detailliert
-- [ ] Aktueller Prozess mit Pain Points
-- [ ] Daten & Integrationen identifiziert
-- [ ] How Might We-Fragen (mind. 2)
-- [ ] Lösungsidee mit Wow-Feature
-- [ ] Value Proposition vollständig
-- [ ] Scope klar (In/Out/Annahmen/Constraints)
-- [ ] KPIs mit Baseline und Zielwerten
-- [ ] Offene Fragen für RE gelistet
-```
-
----
-
-## 🚫 Anti-Patterns im BA-Dokument
-
-### ❌ Vage Problembeschreibung
-```
-FALSCH: "Das System ist langsam und unzuverlässig"
-RICHTIG: "Die Ladezeit beträgt durchschnittlich 8 Sekunden, 
-         Ziel sind <2 Sekunden. System ist 2x/Woche nicht erreichbar."
-```
-
-### ❌ Unspezifische User
-```
-FALSCH: "User sind Mitarbeiter"
-RICHTIG: "Primäre User: Sales Manager (5), sekundär: CFO für Reports"
-```
-
-### ❌ Fehlende Priorisierung
-```
-FALSCH: Lange Feature-Liste ohne Priorisierung
-RICHTIG: Must-Have (In-Scope) vs Nice-to-Have (Out-of-Scope) getrennt
-```
-
-### ❌ Technische Lösungen vorwegnehmen
-```
-FALSCH: "Wir brauchen eine React-App mit PostgreSQL-Backend"
-RICHTIG: "Wir brauchen eine Web-Anwendung mit Datenpersistenz"
-(Technologie-Entscheidungen sind Architekt-Domäne!)
-```
-
-### ❌ Keine messbaren Erfolgsmetriken
-```
-FALSCH: "Nutzer sollen zufriedener sein"
-RICHTIG: "NPS soll von 30 auf 50 steigen"
-```
-
----
-
-## 📤 Handoff-Format an Requirements Engineer
+### Pflicht-Sections:
 
 ```markdown
-## 13. Nächste Schritte
+CHECK constitution-draft.md:
 
-✅ **Abgeschlossen**: Exploration & Ideation
+1. ✅ Development Principles Section vorhanden?
+   - Code Quality Standards
+   - Architecture Principles
+   - Technology Constraints
 
-⏭️ **Nächster Schritt**: Übergabe an Requirements Engineer
+2. ✅ Quality Standards Section vorhanden?
+   - Performance Baselines
+   - Security Requirements
+   - UX Standards
 
-**Für Requirements Engineer**:
-- Erstelle Epics basierend auf Section 9.3 (Key Features)
-- Leite User Stories aus Section 4 (User) + Section 5 (Needs) ab
-- Definiere NFRs basierend auf Section 11.4 (Constraints)
-- Nutze Section 12 (KPIs) für Acceptance Criteria
+3. ✅ Compliance Section vorhanden?
+   - Applicable Regulations
+   - Data Requirements
 
-**Offene Fragen für RE**:
-- [Konkrete Frage 1 die RE klären sollte]
-- [Konkrete Frage 2]
+4. ✅ Process Requirements vorhanden?
+   - Review Gates
+   - Documentation Standards
+   - Deployment Requirements
+```
 
-**Dokument-Referenz**:
-- Problem Statement: Section 2
-- User Context: Section 4
-- Needs/Jobs: Section 5
-- Key Features: Section 9.3
-- Scope Boundaries: Section 11
+### Validierung: Non-Negotiables
+
+```markdown
+⚠️ KRITISCH: Non-Negotiables müssen klar sein!
+
+CHECK: Folgende müssen beantwortet sein:
+- [ ] Test-first development: Ja/Nein
+- [ ] Code review required: Ja/Nein
+- [ ] Minimum code coverage: X%
+- [ ] Applicable regulations: [Liste]
+- [ ] Data residency: [Region/keine]
+
+Wenn unklar → Frage User explizit!
+```
+
+### Fehlermeldung bei unvollständiger Constitution:
+
+```
+⚠️ Constitution Draft unvollständig
+
+Datei: docs/constitution-draft.md
+Problem: 2 kritische Sections fehlen
+
+Fehlend:
+  ❌ Compliance Section - KRITISCH für Spec Kit
+  ❌ Process Requirements - Wird für /speckit.plan benötigt
+
+Aktion erforderlich:
+  Kläre mit User:
+  1. Gibt es Compliance-Anforderungen (GDPR, HIPAA, etc.)?
+  2. Welche Review Gates sind erforderlich?
 ```
 
 ---
 
-## 📊 Qualitäts-Score
+## 📊 Quality Scoring
 
-Bewerte das BA-Dokument vor Übergabe:
+### Gesamt-Score Berechnung
 
-| Kriterium | Gewichtung | Score |
-|-----------|------------|-------|
-| Problem klar definiert | 20% | ⬜ |
-| User identifiziert | 15% | ⬜ |
-| Needs/Pains/Gains | 15% | ⬜ |
-| Lösungsidee konkret | 20% | ⬜ |
-| Scope definiert | 15% | ⬜ |
-| Metriken vorhanden | 15% | ⬜ |
+```
+Simple Test:  4 Checks  → RE-Ready bei ≥75% (3/4)
+PoC:          5 Checks  → RE-Ready bei ≥80% (4/5)
+MVP:          8 Checks  → RE-Ready bei ≥87% (7/8)
 
-**Mindest-Score für Übergabe:**
-- Simple Test: 60%
-- PoC: 75%
-- MVP: 90%
++ Spec Kit Bonus:
+  Constitution Draft vollständig: +10%
+  Non-Negotiables alle beantwortet: +5%
+```
+
+### Score-Meldungen
+
+**RE-Ready:**
+```
+✅ Business Analysis RE-Ready!
+
+Score: [X]% ({passed}/{total} Checks)
+Scope: {Simple Test / PoC / MVP}
+
+Vollständige Sections:
+  ✅ {Section 1}
+  ✅ {Section 2}
+  [...]
+
+Spec Kit Status:
+  ✅ constitution-draft.md erstellt
+  ✅ Non-Negotiables vollständig
+
+→ Bereit für Übergabe an Requirements Engineer
+```
+
+**Nicht Ready:**
+```
+❌ Business Analysis NICHT RE-Ready
+
+Score: [X]% ({passed}/{total} Checks)
+Problem: {Anzahl} kritische Sections fehlen
+
+Fehlend:
+  ❌ {Section 1} - {Warum kritisch}
+  ❌ {Section 2} - {Warum kritisch}
+
+Aktion erforderlich:
+  1. {Konkrete Aktion 1}
+  2. {Konkrete Aktion 2}
+
+→ Behebe Fehler vor Übergabe an RE
+```
+
+---
+
+## 🚫 Anti-Patterns
+
+### ❌ Technische Lösungen vorschreiben
+
+```
+FALSCH (BA sollte nicht):
+"Wir brauchen eine React-App mit PostgreSQL-Datenbank"
+"Die API sollte REST sein mit JWT-Authentication"
+
+RICHTIG (BA sollte):
+"Wir brauchen eine moderne Web-Anwendung"
+"Sichere Authentifizierung ist erforderlich"
+```
+
+### ❌ Vage Problem Statements
+
+```
+FALSCH:
+"Die aktuelle Lösung ist nicht gut"
+"User sind unzufrieden"
+
+RICHTIG:
+"Der aktuelle Prozess dauert 5 Stunden pro Woche und erzeugt 20% Fehlerrate"
+"User brechen den Checkout-Prozess in 40% der Fälle ab"
+```
+
+### ❌ Fehlende Quantifizierung
+
+```
+FALSCH (KPIs):
+"Schnellere Bearbeitung"
+"Weniger Fehler"
+
+RICHTIG (KPIs):
+| KPI | Baseline | Target | Timeframe |
+| Bearbeitungszeit | 5h/Woche | 1h/Woche | 3 Monate |
+| Fehlerrate | 20% | <5% | 6 Monate |
+```
+
+### ❌ Unklarer Scope
+
+```
+FALSCH:
+"Das System sollte auch X können" (ohne In/Out-of-Scope)
+
+RICHTIG:
+In Scope:
+- Feature A
+- Feature B
+
+Out of Scope:
+- Feature X (geplant für Phase 2)
+- Feature Y (bewusst ausgeschlossen wegen...)
+```
 
 ---
 
 ## 🔄 Feedback-Loop mit User
 
-Wenn kritische Informationen fehlen:
+### Wenn Informationen fehlen:
 
 ```markdown
-⚠️ Für ein vollständiges BA-Dokument fehlen noch:
+💬 Rückfrage an User:
 
-- [ ] [Fehlende Information 1]
-- [ ] [Fehlende Information 2]
+Mir fehlen noch folgende Informationen für ein vollständiges 
+Business Analysis Dokument:
 
-Können wir diese Punkte noch klären, bevor ich an den 
-Requirements Engineer übergebe?
+1. **User Personas:** Wer sind die primären Nutzer?
+   - Rolle/Job Title?
+   - Hauptziele?
+   - Aktuelle Pain Points?
+
+2. **Success Metrics:** Wie messen wir Erfolg?
+   - Aktuelle Baseline?
+   - Zielwerte?
+   - Zeitrahmen?
+
+Können wir diese Punkte klären?
+```
+
+### Wenn Scope unklar:
+
+```markdown
+💬 Scope-Klärung benötigt:
+
+Du hast {Feature X} erwähnt. Ich bin unsicher ob das:
+
+A) ✅ In Scope für dieses Projekt ist
+B) ❌ Out of Scope (später/nie)
+C) ❓ Nice-to-have (wenn Zeit)
+
+Was trifft zu?
 ```
 
 ---
 
-**Version:** 1.0
-**Focus:** Output-Qualität und RE-Handoff
-**Quality Gate:** BA-Dokument Vollständigkeit
+## 📋 Handoff Checkliste für RE
+
+### Standard Handoff:
+
+```markdown
+## Handoff an Requirements Engineer
+
+**Projekt:** {Name}
+**Scope:** {Simple Test / PoC / MVP}
+**BA-Dokument:** docs/business-analysis.md
+
+### Key Information für RE:
+
+**Problem Statement:**
+{Kurze Zusammenfassung}
+
+**Primary Users:**
+- {Persona 1}: {Hauptziel}
+- {Persona 2}: {Hauptziel}
+
+**Key Features (priorisiert):**
+| Priority | Feature |
+| P0 | {Feature 1} |
+| P1 | {Feature 2} |
+
+**Constraints:**
+- {Constraint 1}
+- {Constraint 2}
+
+**Offene Fragen:**
+- {Frage 1}
+- {Frage 2}
+
+### RE Action Items:
+1. [ ] EPIC erstellen (wenn PoC/MVP)
+2. [ ] FEATURE-*.md für jedes Key Feature
+3. [ ] Success Criteria (tech-agnostisch!) definieren
+4. [ ] specify-context.md erstellen (wenn Spec Kit)
+```
+
+### Spec Kit Handoff (zusätzlich):
+
+```markdown
+## Spec Kit Integration
+
+**Constitution Draft:** docs/constitution-draft.md
+- Status: ✅ Vollständig / ⚠️ Unvollständig
+
+**Für /speckit.constitution:**
+1. Review constitution-draft.md
+2. Finalisiere offene {placeholder} Items
+3. Nutze als Input für /speckit.constitution
+
+**Für RE Agent:**
+- Erstelle specify-context.md nach Feature-Definition
+- Achte auf tech-agnostische Success Criteria!
+```
+
+---
+
+## ✅ Abschluss-Validierung
+
+Vor Übergabe an RE, führe finale Validierung durch:
+
+```markdown
+## Finale BA Validierung
+
+### Dokument-Qualität
+- [ ] Alle Pflicht-Sections vorhanden (scope-spezifisch)
+- [ ] Problem Statement klar und quantifiziert
+- [ ] User identifiziert und beschrieben
+- [ ] Scope explizit (In/Out)
+- [ ] Constraints dokumentiert
+- [ ] Key Features priorisiert
+
+### Spec Kit (wenn applicable)
+- [ ] constitution-draft.md erstellt
+- [ ] Non-Negotiables beantwortet
+- [ ] Compliance Requirements dokumentiert
+
+### Handoff-Ready
+- [ ] Summary für RE erstellt
+- [ ] Offene Fragen dokumentiert
+- [ ] Nächste Schritte definiert
+
+---
+
+**Score:** [X]%
+**Status:** {RE-Ready / Nicht Ready}
+```
+
+---
+
+**Version:** 2.0 (mit Spec Kit Integration)
+**Focus:** Business Analysis + Constitution Draft
+**Quality Gate:** RE-Ready Validation

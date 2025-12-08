@@ -1,14 +1,11 @@
 {
-  "name": "Python uv Base Dev Container",
+  "name": "Python uv + Spec Kit Dev Container",
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."
   },
 
-  // Der Containerpfad entspricht dem Projektordnernamen
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
-  // Lokalen Ordner in den Container einhängen
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
 
   "customizations": {
@@ -23,10 +20,10 @@
     }
   },
 
-  // Umgebung nach dem Bauen konfigurieren
-  "postCreateCommand": "uv sync",
+  // Hier: Python-Umgebung + Spec Kit Check
+  "postCreateCommand": "uv sync && specify check || true",
 
   "containerEnv": {
-    // Hier später z.B. OPENAI_API_KEY etc.
+    // Platz für API-Keys etc.
   }
 }

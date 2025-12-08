@@ -1,549 +1,573 @@
 ---
 name: Architect Quality Standards
-description: "Automatische Validierungsregeln für Architektur-Outputs - ADRs, arc42, Issues"
-applyTo: "architecture/**/*.md, docs/ARC42-DOCUMENTATION.md, docs/architect-handoff.md, backlog/ISSUE-*.md"
+applyTo: "architecture/adr/**/*.md, docs/ARC42-DOCUMENTATION.md, requirements/issues/**/*.md, requirements/handoff/plan-context.md"
+description: "Qualitätsregeln für Architecture Decision Records, arc42 und ISSUE-Erstellung"
 ---
 
-# Architect Mode - Quality Standards & Validation Rules
+# Architect - Quality Standards
 
-Diese Instructions werden automatisch angewendet beim Arbeiten mit Architektur-Dateien. Sie stellen Qualitätsstandards für ADRs, arc42 Dokumentation und Issue-Spezifikationen sicher.
+Diese Instructions werden automatisch angewendet beim Arbeiten mit ADRs, arc42 Dokumentation und ISSUEs.
 
-> **Ziel:** Developer kann sofort mit Implementation starten, ohne Rückfragen an den Architekten.
+> **Ziel:** Vollständige Architektur-Dokumentation die Developer Agent UND /speckit.plan bedienen kann.
 
 ---
 
 ## 📁 Unterstützte Dateitypen
 
 ```
-✅ architecture/**/*.md (Analysis, Intake, ADRs)
+✅ architecture/adr/ADR-*.md
 ✅ docs/ARC42-DOCUMENTATION.md
-✅ docs/architect-handoff.md
-✅ backlog/ISSUE-*.md
+✅ requirements/issues/ISSUE-*.md
+✅ requirements/handoff/plan-context.md
+✅ requirements/handoff/developer-handoff.md
 ```
 
 ---
 
-## ⚙️ Prerequisites Check (Phase 1)
+## 🎯 Qualitätsziele
 
-**Vor Architektur-Arbeit validieren:**
+### Für Developer Agent
+- ✅ ADRs erklären WARUM Entscheidungen getroffen wurden
+- ✅ ISSUEs sind atomar (1-3 Tage)
+- ✅ Jedes ISSUE referenziert relevante ADRs
+- ✅ Technical Constraints klar
 
-```markdown
-✅ Requirements handoff existiert?
-   Location: requirements/handoff/architect-handoff.md
-
-✅ Handoff enthält ASRs?
-   → Critical ASRs (🔴)
-   → Moderate ASRs (🟡)
-
-✅ Handoff enthält NFRs?
-   → NFR Summary Table (quantifiziert)
-
-✅ Handoff enthält Constraints?
-   → Technical, Business, Functional
-
-✅ Handoff enthält Open Questions?
-   → High Priority (blocking)
-   → Medium Priority (non-blocking)
-
-If ANY missing:
-  ❌ Return to Requirements Engineer
-  ❌ Request completion
-
-If ALL present:
-  ✅ Proceed with Phase 1
-```
+### Für Spec Kit Integration
+- ✅ plan-context.md für /speckit.plan
+- ✅ ADRs als Kontext für research.md Validierung
+- ✅ arc42 Section 8 für data-model.md
 
 ---
 
-## 📋 ADR (Architecture Decision Record) Validation
+## 🔍 ADR Validierung
 
-### Dateinamen-Pattern
+### Dateinamen-Konvention
 
 ```javascript
-// Pattern: ADR-NNN-descriptive-title.md
-const adrPattern = /^ADR-\d{3}-[a-z0-9-]+\.md$/;
+const pattern = /^ADR-\d{3}-[a-z0-9-]+\.md$/;
 
-// ✅ ADR-001-backend-framework-selection.md
-// ✅ ADR-023-event-driven-architecture.md
-// ❌ 0001-backend-framework.md (missing ADR prefix)
-// ❌ adr-1-title.md (wrong format)
+// Gültig:
+✅ ADR-001-backend-framework-selection.md
+✅ ADR-002-database-choice.md
+✅ ADR-015-authentication-strategy.md
+
+// Ungültig:
+❌ adr-001.md (lowercase prefix)
+❌ ADR-1-framework.md (nicht 3-stellig)
+❌ ADR-001-Backend Framework.md (Leerzeichen)
 ```
+
+### Pflicht-Sections für ADRs
+
+```markdown
+CHECK beim Speichern:
+
+1. ✅ Header vollständig?
+   - Status: [Proposed/Accepted/Deprecated/Superseded]
+   - Date: YYYY-MM-DD
+   - Deciders: Mindestens 1
+
+2. ✅ Context Section?
+   - Problem beschrieben
+   - Triggering ASR referenziert (wenn vorhanden)
+   - Quality Attribute genannt
+
+3. ✅ Decision Drivers?
+   - Mindestens 2 Drivers
+
+4. ✅ Considered Options?
+   - Mindestens 2 Optionen
+   - Jede Option hat Pros und Cons
+
+5. ✅ Decision?
+   - Gewählte Option benannt
+   - Begründung vorhanden
+
+6. ✅ Consequences?
+   - Positive Konsequenzen
+   - Negative Konsequenzen/Trade-offs
+   - Risks (wenn vorhanden)
+
+7. ✅ Implementation Notes? (optional aber empfohlen)
+```
+
+### ADR-ASR Traceability
+
+```markdown
+CHECK: Hat jedes Critical ASR ein ADR?
+
+Aus Features:
+🔴 ASR: Response Time < 200ms → ADR-003: Caching Strategy ✅
+🔴 ASR: 10,000 concurrent users → ADR-005: Scaling Architecture ✅
+🔴 ASR: GDPR Compliance → ADR-007: Data Architecture ✅
+🟡 ASR: Audit Logging → (kein ADR - ok für Moderate)
+
+Fehlermeldung wenn Critical ASR ohne ADR:
+❌ Critical ASR ohne ADR gefunden!
+
+ASR: "Response Time < 200ms for 95th percentile"
+Source: FEATURE-001-user-dashboard.md
+Quality Attribute: Performance
+
+Aktion erforderlich:
+  Erstelle ADR für dieses ASR:
+  → architecture/adr/ADR-{XXX}-performance-optimization.md
+```
+
+---
+
+## 🔍 arc42 Validierung nach Scope
+
+### Simple Test (Minimal)
+
+```markdown
+PFLICHT-SECTIONS:
+✅ Section 1: Introduction and Goals (1.1, 1.2)
+✅ Section 3: Context and Scope (3.1 Business Context)
+✅ Section 4: Solution Strategy (Technology Decisions)
+
+OPTIONAL:
+○ Section 5: Building Block View
+○ Section 8: Crosscutting Concepts
+```
+
+### Proof of Concept (Moderate)
+
+```markdown
+PFLICHT-SECTIONS:
+✅ Section 1: Introduction and Goals (vollständig)
+✅ Section 3: Context and Scope (3.1 + 3.2)
+✅ Section 4: Solution Strategy (vollständig)
+✅ Section 5: Building Block View (Level 1)
+✅ Section 8: Crosscutting Concepts (8.1 Domain Model)
+
+OPTIONAL:
+○ Section 6: Runtime View
+○ Section 7: Deployment View
+○ Section 9: Architecture Decisions (Tabelle)
+○ Section 11: Risks
+```
+
+### MVP (Vollständig)
+
+```markdown
+PFLICHT-SECTIONS:
+✅ Section 1: Introduction and Goals (vollständig)
+✅ Section 2: Constraints (falls vorhanden)
+✅ Section 3: Context and Scope (vollständig)
+✅ Section 4: Solution Strategy (vollständig)
+✅ Section 5: Building Block View (Level 1 + 2)
+✅ Section 6: Runtime View (kritische Szenarien)
+✅ Section 7: Deployment View
+✅ Section 8: Crosscutting Concepts (vollständig)
+✅ Section 9: Architecture Decisions (ADR Tabelle)
+✅ Section 10: Quality Requirements
+✅ Section 11: Risks and Technical Debt
+✅ Section 12: Glossary
+```
+
+### Fehlermeldung bei fehlenden Sections
+
+```
+❌ arc42 Documentation unvollständig für MVP Scope
+
+Datei: docs/ARC42-DOCUMENTATION.md
+Scope: MVP
+Problem: 3 Pflicht-Sections fehlen
+
+Vorhanden:
+  ✅ Section 1: Introduction and Goals
+  ✅ Section 3: Context and Scope
+  ✅ Section 4: Solution Strategy
+  ✅ Section 5: Building Block View
+  ❌ Section 6: Runtime View - FEHLT
+  ❌ Section 7: Deployment View - FEHLT
+  ✅ Section 8: Crosscutting Concepts
+  ❌ Section 10: Quality Requirements - FEHLT
+
+Aktion erforderlich:
+  1. Erstelle Section 6 mit kritischen Runtime-Szenarien
+  2. Erstelle Section 7 mit Deployment Diagram
+  3. Erstelle Section 10 mit Quality Scenarios
+```
+
+---
+
+## 🔍 ISSUE Validierung
+
+### Dateinamen-Konvention
+
+```javascript
+const pattern = /^ISSUE-\d{3}-[a-z0-9-]+\.md$/;
+
+// Gültig:
+✅ ISSUE-001-setup-project-structure.md
+✅ ISSUE-042-implement-user-login.md
+
+// Ungültig:
+❌ issue-001.md
+❌ ISSUE-1-setup.md
+```
+
+### Atomizitäts-Check (KRITISCH!)
+
+```markdown
+CHECK: Ist ISSUE atomar? (1-3 Tage)
+
+Effort-Validierung:
+✅ S (Small): < 1 Tag
+✅ M (Medium): 1-2 Tage
+✅ L (Large): 2-3 Tage
+❌ XL: > 3 Tage → MUSS aufgeteilt werden!
+
+Indikatoren für zu große ISSUEs:
+- Mehr als 5 Acceptance Criteria
+- Mehr als 3 API Endpoints
+- Mehr als 2 Entitäten betroffen
+- "und" im Titel (z.B. "Setup AND Configure AND Test")
+
+Fehlermeldung:
+❌ ISSUE nicht atomar!
+
+Datei: ISSUE-042-implement-full-user-management.md
+Effort: XL (geschätzt 5+ Tage)
+Problem: ISSUE ist zu groß
+
+Indikatoren:
+- 8 Acceptance Criteria
+- 4 API Endpoints
+- 3 Entitäten (User, Role, Permission)
+
+Aktion erforderlich:
+  Teile auf in:
+  - ISSUE-042a: Create User entity and basic CRUD
+  - ISSUE-042b: Implement Role management
+  - ISSUE-042c: Add Permission system
+  - ISSUE-042d: Connect User-Role-Permission
+```
+
+### Pflicht-Sections für ISSUEs
+
+```markdown
+CHECK beim Speichern:
+
+1. ✅ Header vollständig?
+   - Feature Reference
+   - Type: Feature/Bug/Tech Debt/Spike
+   - Effort: S/M/L
+   - Priority: P0/P1/P2
+
+2. ✅ Description vorhanden?
+
+3. ✅ Acceptance Criteria?
+   - Mindestens 2 Kriterien
+   - Alle als Checkboxen
+   - Alle testbar
+
+4. ✅ Technical Requirements?
+   - ADR References (mindestens 1)
+   - API Contract (wenn relevant)
+   - Data Model (wenn relevant)
+
+5. ✅ Implementation Notes?
+   - Suggested Approach
+   - Edge Cases
+
+6. ✅ Testing Requirements?
+   - Unit Tests definiert
+   - Integration Tests (wenn relevant)
+
+7. ✅ Dependencies?
+   - Blocks/Blocked by
+
+8. ✅ Definition of Done?
+```
+
+### ADR-Referenz Validierung
+
+```markdown
+CHECK: Referenziert ISSUE mindestens 1 ADR?
+
+ISSUE: ISSUE-042-implement-user-login.md
+
+ADR References gefunden:
+  ✅ ADR-003: Authentication Strategy
+  ✅ ADR-007: Security Architecture
+
+Status: OK - ADR References vorhanden
+
+---
+
+Fehlermeldung wenn keine ADR Reference:
+⚠️ ISSUE ohne ADR Reference
+
+Datei: ISSUE-042-implement-user-login.md
+Problem: Keine ADR referenziert
+
+Empfehlung:
+  Dieses ISSUE betrifft Authentication.
+  Relevante ADRs:
+  - ADR-003: Authentication Strategy
+  - ADR-007: Security Architecture
+
+  Füge hinzu:
+  ### Architecture Constraints
+  - ADR-003: Use OAuth 2.0 with Azure AD
+  - ADR-007: All auth endpoints require TLS 1.3
+```
+
+---
+
+## 🔍 plan-context.md Validierung
 
 ### Pflicht-Sections
 
 ```markdown
-MANDATORY in jedem ADR:
+CHECK requirements/handoff/plan-context.md:
 
-✅ # [Title]
-✅ **Status:** Accepted/Proposed/Deprecated
-✅ **Date:** YYYY-MM-DD
-✅ ## Context and Problem Statement (2-3 Sätze)
-✅ ## Decision Drivers (min. 2)
-✅ ## Considered Options (min. 3!)
-✅ ## Decision Outcome
-✅ ### Consequences (Good AND Bad)
-✅ ### Confirmation (wie verifizieren?)
-✅ ## Pros and Cons of Options (für jede Option)
-✅ ## Research Links (min. 2)
+1. ✅ Technical Stack Section?
+   - Backend (Language, Framework, Database, ORM)
+   - Frontend (wenn applicable)
+   - Infrastructure (Cloud, Deployment, CI/CD)
+   - API & Integration
+
+2. ✅ Architecture Style?
+   - Pattern genannt
+   - Quality Goals (Top 3)
+
+3. ✅ Key Architecture Decisions?
+   - Mindestens 3 ADRs zusammengefasst
+   - Jeder mit Rationale
+
+4. ✅ Data Model?
+   - Core Entities
+   - Relationships
+
+5. ✅ External Integrations?
+   - System, Type, Protocol, Purpose
+
+6. ✅ Performance & Security?
+   - Mit konkreten Zahlen
+   - Technische Details erlaubt
 ```
 
-### Content Quality Checks
+### ADR Summary Tabelle
 
 ```markdown
-CHECK:
-✅ Context ist prägnant (2-3 Sätze)?
-✅ Decision Drivers sind spezifisch?
-✅ Options sind realistische Alternativen (keine Strohmänner)?
-✅ Decision Outcome nennt Wahl + Begründung?
-✅ Consequences enthält POSITIVE UND NEGATIVE?
-✅ Research Links sind relevant und aktuell?
+CHECK: ADR Summary vorhanden?
 
-FORBIDDEN:
-❌ Vager Context ("We need a database")
-❌ Nur 2 Options (braucht 3+ für echte Evaluation)
-❌ Nur positive Consequences
-❌ Keine Research Links
-❌ Placeholders [TODO], [TBD]
+| ADR | Title | Status | Impact |
+|-----|-------|--------|--------|
+| ADR-001 | Backend Framework | Accepted | High |
+| ADR-002 | Database Choice | Accepted | High |
+| ADR-003 | Auth Strategy | Accepted | High |
+
+Mindestens 3 ADRs müssen gelistet sein!
 ```
 
-### Fehlermeldung bei ADR-Problemen
+### Consistency Check
 
-```
-❌ ADR Quality Issues
+```markdown
+CHECK: plan-context.md konsistent mit ADRs?
 
-File: architecture/ADR-015-database-choice.md
-Issues: 3
+Vergleiche:
+- Tech Stack in plan-context.md
+- Decisions in ADR-*.md
 
-1. ❌ Insufficient Options
-   Found: 2 options
-   Required: Minimum 3
-   → Add realistic alternative with pros/cons
+Inkonsistenz gefunden:
+⚠️ plan-context.md inkonsistent mit ADRs!
 
-2. ❌ Missing Research Links
-   Found: 0 links
-   Required: Minimum 2
-   → Include web_search findings
-   → Reference official documentation
+plan-context.md sagt: "Database: MySQL"
+ADR-002 sagt: "Decision: PostgreSQL"
 
-3. ❌ No Negative Consequences
-   Found: Only positive
-   Required: Both good AND bad
-   → Be honest about trade-offs
+Aktion: Korrigiere plan-context.md oder update ADR-002
 ```
 
 ---
 
-## 📐 arc42 Documentation Validation
+## 🔍 Spec Kit Compatibility Check
 
-### Scope-spezifische Sections
+### plan-context.md ist Ready wenn:
 
-```markdown
-Simple Test:
-- Kein arc42 erforderlich
-- README.md mit Setup-Instructions
-
-PoC:
-- Required: Sections 1, 3, 4
-- Minimum: 2-3 Diagrams
-
-MVP:
-- Required: Sections 1-7
-- Minimum: 5-8 Diagrams
+```
+✅ Alle Pflicht-Sections vorhanden
+✅ Tech Stack vollständig (Backend, Frontend, Infrastructure)
+✅ Mindestens 3 ADRs in Summary
+✅ Data Model definiert
+✅ Performance & Security mit Zahlen
+✅ Prompt für /speckit.plan copy-paste ready
 ```
 
-### Section Validation
+### ADRs sind Ready für Spec Kit wenn:
 
-**Section 1: Introduction and Goals**
-```markdown
-CHECK:
-✅ Requirements overview (top 3-5)?
-✅ Quality goals mit Priorities?
-✅ Stakeholder table?
-
-FORBIDDEN:
-❌ Copy-paste entire requirements
-❌ Vage quality goals ("should be fast")
+```
+✅ Alle Critical ASRs haben ADRs
+✅ ADRs haben vollständige Rationale
+✅ ADRs referenzieren Quality Attributes
+✅ ADRs können als Kontext für /speckit.plan dienen
 ```
 
-**Section 3: Context and Scope**
-```markdown
-CHECK:
-✅ Business context diagram (Mermaid)?
-✅ External systems identified?
-✅ Technical context (protocols, interfaces)?
+### Erfolgs-Meldung
 
-FORBIDDEN:
-❌ Internal implementation details
 ```
+✅ SPEC KIT PLAN READY!
 
-**Section 4: Solution Strategy**
-```markdown
-CHECK:
-✅ Fundamental decisions listed?
-✅ Links zu ADRs?
-✅ Technology choices mit Rationale?
+Documents:
+  ✅ plan-context.md vollständig
+  ✅ 5 ADRs verfügbar als Kontext
+  ✅ arc42 Sections 4, 5, 8 vollständig
 
-FORBIDDEN:
-❌ Detailed design (zu früh)
-❌ Keine ADR references
-```
-
-**Sections 5-7 (MVP only)**
-```markdown
-CHECK:
-✅ Building blocks mit Responsibilities?
-✅ Component diagrams?
-✅ Key scenarios mit Sequence diagrams?
-✅ Deployment view?
-```
-
-### Diagram Quality
-
-```markdown
-CHECK Mermaid Diagrams:
-✅ Valid Mermaid syntax?
-✅ Minimum 5 nodes?
-✅ Descriptive labels (nicht nur A, B, C)?
-✅ Relationships labeled?
-
-Minimum Diagrams:
-- PoC: 2-3 (Context, Components)
-- MVP: 5-8 (Context, Container, Component, Sequence, Deployment)
-
-FORBIDDEN:
-❌ Trivial diagrams (< 5 nodes)
-❌ Unlabeled relationships
-❌ ASCII art statt Mermaid
+Nächste Schritte:
+  1. Copy prompt aus plan-context.md
+  2. Attach ADRs + arc42 als Kontext
+  3. Run /speckit.plan
+  4. Review: plan.md, research.md, data-model.md
 ```
 
 ---
 
-## 📝 Issue Specification Validation
+## 📊 Quality Scoring
 
-### Dateinamen-Pattern
-
-```javascript
-// Pattern: ISSUE-NNN-descriptive-title.md
-const issuePattern = /^ISSUE-\d{3}-[a-z0-9-]+\.md$/;
-
-// Location: backlog/ISSUE-*.md
-
-// ✅ backlog/ISSUE-001-user-authentication.md
-// ❌ issues/ISSUE-001-auth.md (wrong directory)
-```
-
-### Atomic Issue Requirement (KRITISCH!)
-
-```markdown
-ATOMIC ISSUE = 1-3 Tage Effort Maximum
-
-| Size | Effort | Example |
-|------|--------|---------|
-| Tiny | 2-4h | Add field to model |
-| Small | 4-8h | Single endpoint |
-| Medium | 1-2d | Profile with validation |
-| Large | 2-3d | Third-party integration |
-
-If Issue > 3 days → SPLIT IT!
-
-❌ TOO LARGE:
-"ISSUE-001: Implement User Auth System" (2-3 weeks)
-
-✅ ATOMIC:
-"ISSUE-001: Create User Model" (4-6h)
-"ISSUE-002: User Registration Endpoint" (6-8h)
-"ISSUE-003: Email Validation" (4-6h)
-"ISSUE-004: Password Hashing" (4-6h)
-"ISSUE-005: Login Endpoint" (6-8h)
-```
-
-### Pflicht-Sections
-
-```markdown
-MANDATORY in jedem Issue:
-
-✅ # ISSUE-XXX: [Title]
-✅ Metadata (Type, Priority, Effort, Status)
-✅ ## Context (Why this Issue exists)
-✅ ## Requirements (Functional & Non-Functional)
-✅ ## 🏗️ Architectural Context (ADR links)
-✅ ## Implementation Guidance (high-level)
-✅ ## ✅ Acceptance Criteria (min. 3, testbar)
-✅ ## Testing Requirements (mandatory)
-✅ ## Definition of Done
-✅ ## Architectural Constraints (MUST/MUST NOT)
-✅ ## Dependencies
-```
-
-### Content Quality Checks
-
-```markdown
-CHECK Issue Quality:
-
-Architectural Context:
-✅ Links zu relevanten ADRs?
-✅ References arc42 sections?
-✅ Decision summary vorhanden?
-
-Acceptance Criteria:
-✅ Minimum 3 Criteria?
-✅ Jedes Kriterium testbar?
-✅ Verification method specified?
-
-Constraints:
-✅ Clear MUST statements?
-✅ Clear MUST NOT (anti-patterns)?
-✅ Performance requirements quantified?
-
-Developer Autonomy:
-✅ Implementation details offen gelassen?
-✅ HOW nicht vorgeschrieben?
-
-FORBIDDEN:
-❌ Step-by-step implementation tasks
-❌ Code snippets (unless mandated pattern)
-❌ Specific algorithms (unless performance-critical)
-❌ Missing ADR references
-❌ Vage acceptance criteria ("works well")
-```
-
-### Fehlermeldung bei Issue-Problemen
+### ADR Quality Score
 
 ```
-❌ Issue Specification Issues
+| Kriterium | Gewichtung |
+|-----------|------------|
+| Vollständige Sections | 30% |
+| ASR Reference | 20% |
+| Multiple Options considered | 20% |
+| Clear Rationale | 20% |
+| Implementation Notes | 10% |
 
-File: backlog/ISSUE-023-order-processing.md
-Issues: 3
+Minimum für Approval: 70%
+```
 
-1. ❌ Issue Too Large
-   Found: ~15 days effort
-   Required: 1-3 days maximum
-   → Split into 5-8 atomic Issues
+### ISSUE Quality Score
 
-2. ❌ No ADR References
-   Required: Links to relevant ADRs
-   → Link ADR-015 (Event-Driven)
-   → Explain architectural decision
+```
+| Kriterium | Gewichtung |
+|-----------|------------|
+| Atomicity (1-3 days) | 25% |
+| ADR Reference | 20% |
+| Testable AC | 20% |
+| Implementation Notes | 15% |
+| Dependencies documented | 10% |
+| DoD complete | 10% |
 
-3. ❌ Implementation Tasks Included
-   Found: Step-by-step HOW
-   Problem: Tasks are Developer's job
-   → Remove implementation steps
-   → Keep architectural constraints only
+Minimum für Approval: 75%
 ```
 
 ---
 
-## 🎯 Scope-Specific Validation
+## 🚫 Anti-Patterns
 
-### Simple Test
+### ❌ ADR ohne Alternativen
 
-```markdown
-CHECK:
-✅ README.md mit Setup?
-✅ 3-8 atomic Issues?
-✅ Each Issue 1-3 days?
-✅ Clear single responsibility?
+```
+FALSCH:
+## Considered Options
+We chose React because it's popular.
 
-SKIP:
-- arc42 (overkill)
-- Multiple ADRs
-- Complex diagrams
+RICHTIG:
+## Considered Options
+
+### Option 1: React
+- ✅ Large ecosystem
+- ✅ Team experience
+- ❌ Heavy bundle size
+
+### Option 2: Vue
+- ✅ Smaller bundle
+- ✅ Easy learning curve
+- ❌ Less team experience
+
+### Option 3: Svelte
+- ✅ Smallest bundle
+- ❌ Newer, less mature ecosystem
+- ❌ No team experience
 ```
 
-### PoC
+### ❌ Nicht-atomare ISSUEs
 
-```markdown
-CHECK:
-✅ Requirements analysis complete?
-✅ 2-5 ADRs (MADR, 3+ options)?
-✅ arc42 sections 1, 3, 4?
-✅ 2-3 diagrams?
-✅ 10-30 atomic Issues?
-✅ Handover document?
+```
+FALSCH:
+# ISSUE-001: Implement complete user management system
+- User CRUD
+- Role management
+- Permission system
+- Audit logging
+- User import/export
+
+RICHTIG:
+# ISSUE-001: Create User entity and repository
+# ISSUE-002: Implement User CRUD API
+# ISSUE-003: Add Role entity and association
+# ISSUE-004: Implement Permission system
+# ISSUE-005: Add audit logging for user changes
+# ISSUE-006: Create user import/export feature
 ```
 
-### MVP
+### ❌ ISSUE ohne ADR Reference
 
-```markdown
-CHECK:
-✅ Requirements analysis comprehensive?
-✅ 5-15 ADRs?
-✅ arc42 sections 1-7?
-✅ 5-8 diagrams?
-✅ 30-100 atomic Issues?
-✅ All Issues link to ADRs?
-✅ Dependencies mapped?
-✅ Performance/Security quantified?
-✅ Handover comprehensive?
+```
+FALSCH:
+## Technical Requirements
+Use whatever framework you want.
+
+RICHTIG:
+## Technical Requirements
+
+### Architecture Constraints
+- ADR-001: Use FastAPI for REST endpoints
+- ADR-002: Use SQLAlchemy 2.0 for data access
+- ADR-003: Follow repository pattern per ADR-004
 ```
 
----
+### ❌ plan-context.md ohne konkrete Werte
 
-## 🚨 Critical Validation Failures (Blocker)
-
-```markdown
-1. ❌ Wrong Project Scope
-   BLOCK: MVP complexity for Simple Test
-   ACTION: Scale back appropriately
-
-2. ❌ Missing ADR for Major Decision
-   BLOCK: Architectural choice without ADR (PoC/MVP)
-   ACTION: Create ADR using MADR template
-
-3. ❌ Issues with Implementation Tasks
-   BLOCK: Step-by-step HOW in Issues
-   ACTION: Remove tasks, keep constraints
-
-4. ❌ Issues Too Large
-   BLOCK: Issue > 3 days effort
-   ACTION: Split into atomic Issues
-
-5. ❌ Insufficient Options in ADR
-   BLOCK: ADR has < 3 options
-   ACTION: Add realistic alternatives
-
-6. ❌ arc42 Sections Missing
-   BLOCK: MVP missing sections 1-7
-   ACTION: Complete all required sections
 ```
+FALSCH:
+### Performance & Security
+- Fast response times
+- Secure authentication
+- Good scalability
 
----
-
-## ✅ Quality Gate Checklists
-
-### Simple Test QG
-
-```markdown
-- [ ] README with setup exists
-- [ ] Tech stack chosen
-- [ ] 3-8 atomic Issues created
-- [ ] Each Issue has clear requirements
-- [ ] Each Issue has acceptance criteria
-```
-
-### PoC QG
-
-```markdown
-- [ ] Requirements analysis complete
-- [ ] 2-5 ADRs (MADR format, 3+ options)
-- [ ] arc42 sections 1,3,4 complete
-- [ ] 2-3 diagrams
-- [ ] 10-30 atomic Issues
-- [ ] Issues have architectural context
-- [ ] Handover document complete
-```
-
-### MVP QG
-
-```markdown
-- [ ] Requirements analysis comprehensive
-- [ ] 5-15 ADRs for all major decisions
-- [ ] arc42 sections 1-7 complete
-- [ ] 5-8 diagrams
-- [ ] 30-100 atomic Issues
-- [ ] All Issues link to ADRs
-- [ ] Dependencies mapped
-- [ ] Performance/security quantified
-- [ ] Handover comprehensive
+RICHTIG:
+### Performance & Security
+- Response Time: < 200ms for 95th percentile
+- Authentication: OAuth 2.0 via Azure AD B2C
+- Scalability: 1,000 concurrent, auto-scale to 10,000
 ```
 
 ---
 
-## 📤 Handover Document Validation
+## ✅ Checkliste vor Handoff
 
-**File:** `docs/architect-handoff.md`
+### An Developer Agent
 
-```markdown
-MANDATORY Sections:
+```
+- [ ] Alle Critical ASRs haben ADRs
+- [ ] ADRs haben vollständige Rationale
+- [ ] arc42 hat Scope-angemessene Sections
+- [ ] Alle ISSUEs sind atomar (1-3 Tage)
+- [ ] Alle ISSUEs referenzieren ADRs
+- [ ] ISSUEs sind priorisiert (P0 → P1 → P2)
+- [ ] developer-handoff.md erstellt
+```
 
-✅ # Architecture → Developer Handoff
-✅ **Status:** ✅ Architecture Approved
-✅ ## Project Summary (scope, pattern, tech stack)
-✅ ## Architecture Overview
-✅ ## System Architecture (diagram + components)
-✅ ## Getting Started (setup + first issue)
-✅ ## Architecture Artifacts (doc locations)
-✅ ## Quality Standards
-✅ ## Developer Autonomy (clear boundaries)
-✅ ## Priority Order (issue sequence)
+### Für Spec Kit
+
+```
+- [ ] plan-context.md erstellt
+- [ ] Tech Stack vollständig dokumentiert
+- [ ] ADR Summary Table vorhanden
+- [ ] Data Model definiert
+- [ ] Performance/Security mit konkreten Zahlen
+- [ ] Prompt für /speckit.plan ready
 ```
 
 ---
 
-## 💬 Validation Message Formats
-
-### Success
-
-```
-✅ {DOCUMENT TYPE} Validation Passed
-
-File: {filepath}
-Scope: {Simple Test / PoC / MVP}
-
-Validations:
-  ✅ {Check 1}
-  ✅ {Check 2}
-
-Status: Ready for next step
-```
-
-### Warning
-
-```
-⚠️ {DOCUMENT TYPE} Quality Warnings
-
-File: {filepath}
-Non-Blocking: {count}
-
-⚠️ {Warning 1}
-   Recommendation: {suggestion}
-
-Status: Acceptable but could improve
-```
-
-### Critical Block
-
-```
-❌ CRITICAL: {DOCUMENT TYPE} BLOCKED
-
-File: {filepath}
-Blocking Issues: {count}
-
-1. ❌ {Issue Title}
-   Found: {what was found}
-   Required: {what's needed}
-   → Action: {specific fix}
-
-CANNOT PROCEED until resolved!
-```
-
----
-
-## 📚 Reference Templates
-
-- **MADR Template:** https://adr.github.io/madr/
-- **arc42 Template:** https://arc42.org/
-- **C4 Model:** https://c4model.com/
-- **Mermaid Diagrams:** https://mermaid.js.org/
-
----
-
-## 📝 Summary
-
-Diese Instructions stellen sicher:
-
-✅ **Appropriate Complexity** - Match depth to scope
-✅ **ADR Quality** - MADR format, 3+ options, research links
-✅ **arc42 Completeness** - Required sections per scope
-✅ **Atomic Issues** - 1-3 days max, single responsibility
-✅ **Clear Boundaries** - Architect defines WHAT, Developer defines HOW
-✅ **Quality Gates** - Validation before handover
-
-**Ziel:** Developer kann sofort mit atomaren Issues starten, ohne Rückfragen.
-
----
-
-**Version:** 2.0
-**Integration:** Works with architect.agent.md
-**Key Features:** Atomic Issues (1-3 days), scope-adaptive validation
+**Version:** 2.0 (mit Spec Kit Integration)
+**Focus:** ADR-ISSUE Traceability + plan-context.md
+**Quality Gate:** Atomicity + ADR Coverage

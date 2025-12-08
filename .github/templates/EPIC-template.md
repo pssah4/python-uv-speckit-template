@@ -1,198 +1,192 @@
-# EPIC-XXX: [Epic Title]
+# Epic: {Name}
 
-> **ID:** EPIC-XXX  
-> **Scope:** PoC | MVP  
-> **Status:** 📋 Not Started | 🚧 In Progress | ✅ Done  
-> **Priority:** P0-Critical | P1-High | P2-Medium  
-> **Created:** YYYY-MM-DD  
-> **BA Document:** [Link to Business Analysis Document]
-
----
-
-## 🎯 Epic Hypothesis Statement (SAFe Format)
-
-**FÜR** [Zielkunden-Segment - spezifisch, nicht "User"]  
-**DIE** [konkreten Bedarf/Problem haben]  
-**IST DAS** [Produkt/Lösung]  
-**EIN** [Produktkategorie]  
-**DAS** [Hauptnutzen bietet - quantifiziert]  
-**IM GEGENSATZ ZU** [Wettbewerbs-Alternative]  
-**UNSERE LÖSUNG** [primäre Differenzierung]
+> **Epic ID**: EPIC-{XXX}
+> **Business Alignment**: docs/business-analysis.md
+> **Scope**: [PoC / MVP]
+> **Spec Kit Integration**: [Ja / Nein]
+> **Status**: [Draft / In Review / Approved]
 
 ---
 
-## 💰 Business Outcomes (Quantifiziert!)
+## Epic Hypothesis Statement
 
-> ⚠️ **Keine vagen Aussagen!** Jedes Outcome muss messbar sein.
+> Format: SAFe Epic Hypothesis Statement
 
-### Primäre Outcomes
-
-| Outcome | Baseline (Ist) | Target (Soll) | Zeitrahmen | Messmethode |
-|---------|----------------|---------------|------------|-------------|
-| [Outcome 1] | [Aktueller Wert] | [Zielwert] | [X Monate] | [Wie gemessen] |
-| [Outcome 2] | [Aktueller Wert] | [Zielwert] | [X Monate] | [Wie gemessen] |
-| [Outcome 3] | [Aktueller Wert] | [Zielwert] | [X Monate] | [Wie gemessen] |
-
-**Beispiele für gute Outcomes:**
-- ✅ "Conversion Rate steigt von 12% auf 18% (+50%) innerhalb 6 Monate"
-- ✅ "Support-Tickets sinken um 40% (von 200/Woche auf 120/Woche)"
-- ❌ "Verbessert User Experience" (zu vage!)
-
-### Leading Indicators (Frühindikatoren)
-
-| Indikator | Beschreibung | Messzyklus | Zielwert |
-|-----------|--------------|------------|----------|
-| [Indikator 1] | [Was zeigt früh ob wir auf Kurs sind] | [Wöchentlich/Monatlich] | [Wert] |
-| [Indikator 2] | [Früher Erfolgsmesser] | [Wöchentlich/Monatlich] | [Wert] |
+**FÜR** {Zielkunden-Segment - spezifisch, nicht "User"}
+**DIE** {Bedarf/Problem haben - klar beschrieben}
+**IST DAS** {Produkt/Lösung - Lösung benannt}
+**EIN** {Produktkategorie - kategorisiert}
+**DAS** {Hauptnutzen bietet - quantifiziert}
+**IM GEGENSATZ ZU** {Alternative - Wettbewerb genannt}
+**UNSERE LÖSUNG** {primäre Differenzierung - USP klar}
 
 ---
 
-## 📋 MVP Features
+## Business Outcomes (messbar)
 
-| Feature ID | Name | Priority | Effort | Status | Link |
-|------------|------|----------|--------|--------|------|
-| FEATURE-001 | [Name] | P0-Critical | M | 📋 Not Started | [Link](../features/FEATURE-001-*.md) |
-| FEATURE-002 | [Name] | P0-Critical | L | 📋 Not Started | [Link](../features/FEATURE-002-*.md) |
-| FEATURE-003 | [Name] | P1-High | S | 📋 Not Started | [Link](../features/FEATURE-003-*.md) |
+> Alle Outcomes MÜSSEN Baseline, Target und Timeframe haben!
+
+| Outcome | Baseline (aktuell) | Target (Ziel) | Timeframe |
+|---------|-------------------|---------------|-----------|
+| {Outcome 1} | {Wert} | {Wert} (+X%) | {Monate} |
+| {Outcome 2} | {Wert} | {Wert} (-X%) | {Monate} |
+| {Outcome 3} | {Wert} | {Wert} | {Monate} |
+
+**Beispiele:**
+- Conversion Rate: 12% → 18% (+50%) innerhalb 6 Monate
+- Support-Tickets: 200/Woche → 120/Woche (-40%) innerhalb 3 Monate
+- Time-to-Market: 8 Wochen → 4 Wochen (-50%) innerhalb 6 Monate
+
+---
+
+## Leading Indicators (Frühindikatoren)
+
+> Frühindikatoren zeigen ob wir auf dem richtigen Weg sind
+
+| Indicator | Measurement | Target | Check Frequency |
+|-----------|-------------|--------|-----------------|
+| {Indikator 1} | {Wie messen} | {Zielwert} | [Weekly/Biweekly] |
+| {Indikator 2} | {Wie messen} | {Zielwert} | [Weekly/Biweekly] |
+
+---
+
+## MVP Features
+
+| Feature ID | Name | Priority | Effort | Status |
+|------------|------|----------|--------|--------|
+| FEATURE-001 | {Name} | P0-Critical | M | Not Started |
+| FEATURE-002 | {Name} | P0-Critical | L | Not Started |
+| FEATURE-003 | {Name} | P1-High | M | Not Started |
+| FEATURE-004 | {Name} | P1-High | S | Not Started |
+| FEATURE-005 | {Name} | P2-Medium | S | Not Started |
 
 **Priority Legend:**
-- **P0-Critical:** Ohne geht MVP nicht
-- **P1-High:** Wichtig für vollständige User Experience
-- **P2-Medium:** Wertsteigernd, aber nicht essentiell
+- **P0-Critical**: MVP funktioniert nicht ohne dieses Feature
+- **P1-High**: Wichtig für vollständige User Experience
+- **P2-Medium**: Wertsteigernd, aber nicht essentiell für Launch
 
 **Effort Legend:**
-- **S:** 1-2 Sprints
-- **M:** 3-5 Sprints
-- **L:** 6+ Sprints
+- **S (Small)**: 1-2 Sprints
+- **M (Medium)**: 3-5 Sprints
+- **L (Large)**: 6+ Sprints
 
 ---
 
-## 🚫 Explizit Out-of-Scope
+## Explizit Out-of-Scope
 
-> Klar definieren was NICHT Teil dieses Epics ist!
+> Diese Features sind BEWUSST nicht Teil des MVPs
 
-| Feature/Capability | Begründung | Geplant für |
-|--------------------|------------|-------------|
-| [Feature X] | [Warum out-of-scope] | Phase 2 / Never |
-| [Feature Y] | [Warum out-of-scope] | Phase 2 / Never |
-| [Feature Z] | [Warum out-of-scope] | Phase 2 / Never |
-
----
-
-## 🔗 Dependencies
-
-### Upstream (Blockiert dieses Epic)
-
-| Dependency | Typ | Owner | Status | Impact wenn verzögert |
-|------------|-----|-------|--------|----------------------|
-| [Dependency 1] | Technical/Business/External | [Team/Person] | 🟢/🟡/🔴 | [Auswirkung] |
-
-### Downstream (Wird von diesem Epic blockiert)
-
-| Abhängiges Epic/Feature | Warum blockiert |
-|-------------------------|-----------------|
-| [Epic/Feature] | [Begründung] |
+| Feature | Reason | Planned For |
+|---------|--------|-------------|
+| {Feature X} | {Begründung} | Phase 2 / Never |
+| {Feature Y} | {Begründung} | Phase 2 / Never |
+| {Feature Z} | {Begründung} | Phase 2 / Never |
 
 ---
 
-## ⚠️ Risks
+## Dependencies
 
-| Risk | Wahrscheinlichkeit | Impact | Mitigation |
-|------|-------------------|--------|------------|
-| [Risk 1] | H/M/L | H/M/L | [Strategie] |
-| [Risk 2] | H/M/L | H/M/L | [Strategie] |
-| [Risk 3] | H/M/L | H/M/L | [Strategie] |
+### Internal Dependencies
 
----
+| Dependency | Team/System | Impact if Delayed | Mitigation |
+|------------|-------------|-------------------|------------|
+| {Dependency 1} | {Team} | {Impact} | {Plan B} |
 
-## 💳 Technical Debt (Nur PoC!)
+### External Dependencies
 
-> ⚠️ **Nur für PoC relevant!** MVP sollte keine bewusste Tech Debt haben.
-
-| Shortcut | Beschreibung | Impact für MVP-Konversion | Geschätzter Cleanup-Aufwand |
-|----------|--------------|---------------------------|----------------------------|
-| [Shortcut 1] | [Was wird vereinfacht] | [Was muss für MVP geändert werden] | [X Tage] |
-| [Shortcut 2] | [Was wird vereinfacht] | [Was muss für MVP geändert werden] | [X Tage] |
-
-**MVP-Konversion Impact:**
-- [ ] Low (1-2 Wochen Cleanup)
-- [ ] Medium (1 Monat Refactor)
-- [ ] High (2-3 Monate Neu-Entwicklung)
+| Dependency | Owner | Due Date | Risk Level |
+|------------|-------|----------|------------|
+| {External System/API} | {Owner} | {Date} | [High/Medium/Low] |
 
 ---
 
-## 📐 Assumptions
+## Risks
 
-| Annahme | Risk wenn falsch | Validierungsmethode |
-|---------|------------------|---------------------|
-| [Annahme 1] | [Impact] | [Wie validieren] |
-| [Annahme 2] | [Impact] | [Wie validieren] |
-
----
-
-## 🚧 Constraints
-
-### Technical Constraints
-- [Constraint 1]: [Beschreibung und Begründung]
-
-### Business Constraints
-- **Budget:** [Limit]
-- **Timeline:** [Deadline]
-- **Resources:** [Team-Verfügbarkeit]
-
-### Compliance/Regulatory
-- [Regulation]: [Anforderung]
+| Risk | Probability | Impact | Mitigation Strategy |
+|------|-------------|--------|---------------------|
+| {Risk 1} | [H/M/L] | [H/M/L] | {Maßnahme} |
+| {Risk 2} | [H/M/L] | [H/M/L] | {Maßnahme} |
+| {Risk 3} | [H/M/L] | [H/M/L] | {Maßnahme} |
 
 ---
 
-## 📅 Timeline & Milestones
+## Technical Debt (nur PoC!)
 
-| Milestone | Zieldatum | Status | Quality Gate |
-|-----------|-----------|--------|--------------|
-| Requirements Complete | YYYY-MM-DD | 📋 | QG1 |
-| Architecture Complete | YYYY-MM-DD | 📋 | QG2 |
-| Feature 1-3 Complete | YYYY-MM-DD | 📋 | QG3 |
-| All Features Complete | YYYY-MM-DD | 📋 | QG4 |
-| Production Release | YYYY-MM-DD | 📋 | QG5 |
+> Dokumentiere bewusst akzeptierte Shortcuts
 
----
+| Shortcut | Description | MVP Conversion Impact | Remediation Effort |
+|----------|-------------|----------------------|-------------------|
+| {Shortcut 1} | {Was wird übersprungen} | {Was muss für MVP gemacht werden} | [S/M/L] |
+| {Shortcut 2} | {Was wird übersprungen} | {Was muss für MVP gemacht werden} | [S/M/L] |
 
-## ✅ Quality Gate 1 (QG1) - Requirements Complete
-
-**Epic ist bereit für Architect wenn:**
-
-- [ ] Epic Hypothesis Statement vollständig (alle 7 Komponenten)
-- [ ] Business Outcomes quantifiziert (Baseline → Target → Timeframe)
-- [ ] Leading Indicators definiert
-- [ ] Min. 3 Features definiert und priorisiert (P0/P1/P2)
-- [ ] Alle Features existieren als separate Dokumente
-- [ ] Out-of-Scope explizit definiert
-- [ ] Dependencies dokumentiert
-- [ ] Risks identifiziert
-- [ ] Technical Debt dokumentiert (nur PoC)
-- [ ] Dateiname-Pattern korrekt: `EPIC-XXX-descriptive-slug.md`
-
-**Wenn alle Checks ✅:** Übergabe an Architect möglich!
+**Impact Summary:**
+- Total Remediation Effort: {X} Sprints geschätzt
+- Critical Debt Items: {Y}
+- Acceptable for PoC: [Ja/Nein]
 
 ---
 
-## 📝 Change Log
+## Spec Kit Integration
 
-| Datum | Änderung | Autor |
-|-------|----------|-------|
-| YYYY-MM-DD | Epic erstellt | [Name] |
-| YYYY-MM-DD | [Änderung] | [Name] |
+> Nur wenn Spec Kit genutzt wird
+
+### Documents for Spec Kit
+
+| Phase | Document | Purpose |
+|-------|----------|---------|
+| Constitution | `docs/constitution-draft.md` | Input für /speckit.constitution |
+| Specify | `requirements/handoff/specify-context.md` | Input für /speckit.specify |
+| Plan | `requirements/handoff/plan-context.md` | Input für /speckit.plan |
+
+### Workflow
+
+```
+1. BA: constitution-draft.md → /speckit.constitution
+2. RE: specify-context.md → /speckit.specify
+3. Architect: plan-context.md → /speckit.plan
+4. Developer: ISSUEs oder /speckit.tasks → /speckit.implement
+```
 
 ---
 
-## 📚 References
+## Traceability
 
-- **BA Document:** [Link]
-- **Related ADRs:** [Nach Architect-Phase hinzufügen]
-- **arc42 Documentation:** [Nach Architect-Phase hinzufügen]
+### To Business Analysis
+
+| Section | BA Document Reference |
+|---------|----------------------|
+| Problem Statement | docs/business-analysis.md → Section 2 |
+| Users | docs/business-analysis.md → Section 4 |
+| Key Features | docs/business-analysis.md → Section 9.3 |
+| Constraints | docs/business-analysis.md → Section 7.4 |
+
+### From Epic to Features
+
+| Feature | Epic Section |
+|---------|-------------|
+| FEATURE-001 | MVP Features Row 1 |
+| FEATURE-002 | MVP Features Row 2 |
 
 ---
 
-**Template Version:** 2.0  
-**Workflow:** BA → RE (erstellt Epic) → Architect → Developer  
-**Scope:** Nur für PoC und MVP (Simple Test hat keine Epics)
+## Approval
+
+| Role | Name | Date | Status |
+|------|------|------|--------|
+| Business Owner | {Name} | {Date} | [Pending/Approved] |
+| Product Owner | {Name} | {Date} | [Pending/Approved] |
+| Technical Lead | {Name} | {Date} | [Pending/Approved] |
+
+---
+
+## Changelog
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | {Date} | {Author} | Initial draft |
+| 1.1 | {Date} | {Author} | {Changes} |
+
+---
+
+**Created by:** Requirements Engineer Agent
+**Next Step:** Create FEATURE-*.md for each MVP Feature

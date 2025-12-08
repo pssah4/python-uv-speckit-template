@@ -1,33 +1,24 @@
 ---
 name: Requirements Engineer Quality Standards
 applyTo: "requirements/epics/**/*.md, requirements/features/**/*.md, requirements/handoff/**/*.md"
-description: "Qualitätsregeln für Requirements Engineering - Epics und Features"
+description: "Qualitätsregeln für Requirements Engineering - Epics, Features und Spec Kit Integration"
 ---
 
-# Requirements Engineer - Quality Standards für Epics & Features
+# Requirements Engineer - Quality Standards
 
-Diese Instructions werden **automatisch** angewendet beim Arbeiten mit Epic- und Feature-Dateien. Sie definieren die Qualitätsstandards für die Übergabe an den Architekten.
+Diese Instructions werden automatisch angewendet beim Arbeiten mit Epic-, Feature- und Handoff-Dateien.
 
-> **Wichtig:** Diese Regeln ergänzen den Requirements Engineer Agent und stellen sicher, dass alle Requirements architect-ready sind.
+> **Ziel:** Der Architekt kann **sofort** mit ADRs starten UND /speckit.specify hat tech-agnostische Success Criteria.
 
 ---
 
 ## 📁 Unterstützte Dateitypen
 
-Diese Validierungsregeln greifen bei:
-
 ```
 ✅ requirements/epics/EPIC-*.md
 ✅ requirements/features/FEATURE-*.md
-✅ requirements/handoff/*.md
-```
-
-**NICHT unterstützt** (werden vom Developer Agent erstellt):
-```
-❌ requirements/issues/ISSUE-*.md       → Developer Agent
-❌ requirements/tasks/TASK-*.md         → Developer Agent
-❌ architecture/adr/ADR-*.md            → Architect Agent
-❌ architecture/arc42/**                → Architect Agent
+✅ requirements/handoff/architect-handoff.md
+✅ requirements/handoff/specify-context.md
 ```
 
 ---
@@ -35,98 +26,123 @@ Diese Validierungsregeln greifen bei:
 ## 🎯 Qualitätsziele
 
 ### Für den Architekten
-Der Architekt muss **sofort starten** können mit:
-- ✅ Klar identifizierten Architecturally Significant Requirements (ASRs)
-- ✅ Quantifizierten Non-Functional Requirements (NFRs)
-- ✅ Dokumentierten Constraints
-- ✅ Priorisierten Open Questions
+- ✅ Klar identifizierte ASRs (🔴/🟡)
+- ✅ Quantifizierte NFRs (mit Zahlen!)
+- ✅ Dokumentierte Constraints
+- ✅ Priorisierte Open Questions
 
-### Für den Developer Agent
-Nach Architektur-Phase muss der Developer Agent:
-- ✅ Klare Acceptance Criteria haben
-- ✅ Testbare Definition of Done haben
-- ✅ Verstehen was zu bauen ist (nicht wie)
+### Für Spec Kit Integration
+- ✅ **Tech-agnostische Success Criteria** (KRITISCH!)
+- ✅ specify-context.md für /speckit.specify
+- ✅ Klare Scope Boundaries
 
 ---
 
-## 🔍 Automatische Validierungen
+## 🔴 KRITISCH: Tech-Agnostic Success Criteria Validation
 
-### 1. Dateinamen-Konventionen
+### Verbotene Begriffe in Success Criteria
 
-**Pattern-Validierung beim Erstellen/Speichern:**
+Diese Begriffe dürfen NICHT in der "Success Criteria (Tech-Agnostic)" Section erscheinen:
 
 ```javascript
-const patterns = {
-  epic: /^EPIC-\d{3}-[a-z0-9-]+\.md$/,
-  feature: /^FEATURE-\d{3}-[a-z0-9-]+\.md$/
-};
+const FORBIDDEN_TERMS = [
+  // Authentication/Authorization
+  'OAuth', 'JWT', 'SAML', 'OpenID', 'OIDC', 'Bearer', 'Token',
+  
+  // API/Protocol
+  'REST', 'GraphQL', 'gRPC', 'WebSocket', 'HTTP', 'HTTPS', 'API',
+  'JSON', 'XML', 'YAML', 'endpoint', 'request', 'response',
+  
+  // Database
+  'SQL', 'NoSQL', 'PostgreSQL', 'MySQL', 'MongoDB', 'Redis',
+  'Elasticsearch', 'DynamoDB', 'query', 'index', 'table',
+  
+  // Frontend
+  'React', 'Angular', 'Vue', 'Svelte', 'JavaScript', 'TypeScript',
+  'CSS', 'HTML', 'DOM', 'component', 'state management',
+  
+  // Backend
+  'Python', 'Java', 'Node', 'FastAPI', 'Express', 'Spring',
+  'Django', 'Flask', 'microservice', 'serverless', 'lambda',
+  
+  // Infrastructure
+  'Docker', 'Kubernetes', 'K8s', 'AWS', 'Azure', 'GCP',
+  'container', 'pod', 'cluster', 'load balancer', 'CDN',
+  
+  // Performance (technical)
+  'ms', 'millisecond', 'latency', 'throughput', 'req/sec',
+  'cache', 'caching', 'Redis', 'Memcached',
+  
+  // Security (technical)
+  'TLS', 'SSL', 'AES', 'encryption', 'hash', 'bcrypt',
+  'RBAC', 'ABAC', 'firewall', 'WAF',
+  
+  // Messaging
+  'Kafka', 'RabbitMQ', 'SQS', 'pub/sub', 'message queue',
+  'event-driven', 'async', 'webhook'
+];
 ```
 
-**Beispiele:**
+### Validierung bei Feature-Speicherung
 
 ```markdown
-✅ EPIC-001-customer-portal.md
-✅ FEATURE-042-user-authentication.md
+CHECK Success Criteria Section:
 
-❌ epic-001.md                       (missing prefix)
-❌ EPIC-1-portal.md                  (number not 3-digit)
-❌ EPIC-001-Customer Portal.md       (spaces not allowed)
-❌ FEATURE-001-userAuth.md           (camelCase not allowed)
+Für jedes Kriterium:
+1. ✅ Enthält KEINE verbotenen Begriffe?
+2. ✅ Fokussiert auf User-Outcome?
+3. ✅ Messbar ohne Technologie-Wissen?
+4. ✅ Verständlich für Business Stakeholder?
+
+WENN verbotener Begriff gefunden:
+❌ Validation Error anzeigen
+→ Umformulierung vorschlagen
 ```
+
+### Fehlermeldung bei Tech-Begriff in Success Criteria
+
+```
+❌ Success Criteria enthält Technologie-Begriff
+
+Datei: FEATURE-042-user-authentication.md
+Section: Success Criteria (Tech-Agnostic)
+Problem: Technologie-Begriff gefunden
+
+Gefunden:
+  ❌ "Response time < 200ms via Redis caching"
+       └── Enthält: "ms", "Redis", "caching"
+  
+  ❌ "OAuth 2.0 authentication required"
+       └── Enthält: "OAuth", "2.0"
+
+Korrektur-Vorschläge:
+  ✅ "Users experience sub-second response times"
+  ✅ "Secure authentication using industry-standard protocols"
+
+WARUM: Spec Kit's /speckit.specify erfordert tech-agnostische Kriterien.
+       Technische Details gehören in die "Technical NFRs" Section.
+```
+
+### Transformation Guide: Tech → Tech-Agnostic
+
+| ❌ Technical (verboten) | ✅ Tech-Agnostic (erlaubt) |
+|------------------------|---------------------------|
+| Response time < 200ms | Users experience sub-second response |
+| OAuth 2.0 authentication | Secure authentication using industry standards |
+| PostgreSQL with indexes | System efficiently handles 100K+ records |
+| REST API with JSON | Machine-readable interface for integrations |
+| 99.9% uptime SLA | System available during business hours with minimal interruptions |
+| Redis caching | Frequently accessed data loads instantly |
+| RBAC authorization | Users only see data relevant to their role |
+| TLS 1.3 encryption | Data transmitted securely |
+| Kubernetes auto-scaling | System handles traffic spikes without degradation |
+| WebSocket real-time | Users see updates without refreshing |
 
 ---
 
-### 2. Epic-Level Validierung (nur PoC & MVP)
+## 🔍 Feature-Level Validierung
 
-#### Pflicht-Sections für Epics:
-
-```markdown
-CHECK beim Speichern:
-
-1. ✅ Epic Hypothesis Statement vorhanden und vollständig?
-2. ✅ Business Outcomes quantifiziert? (Zahlen, Metriken)
-3. ✅ Leading Indicators definiert?
-4. ✅ MVP Features Liste vorhanden? (min. 3 Features)
-5. ✅ Features priorisiert? (P0/P1/P2)
-6. ✅ Out-of-Scope explizit definiert?
-7. ✅ Dependencies dokumentiert?
-8. ✅ Risks identifiziert?
-9. ✅ Technical Debt dokumentiert? (nur PoC)
-```
-
-#### Epic Hypothesis Statement - Vollständigkeits-Check:
-
-```markdown
-Pflicht-Komponenten:
-
-✅ FÜR [Zielkunden-Segment] - spezifisch, nicht "User"
-✅ DIE [Bedarf/Problem haben] - klar beschrieben
-✅ IST DAS [Produkt/Lösung] - Lösung benannt
-✅ EIN [Produktkategorie] - kategorisiert
-✅ DAS [Hauptnutzen bietet] - quantifiziert
-✅ IM GEGENSATZ ZU [Alternative] - Wettbewerb genannt
-✅ UNSERE LÖSUNG [Differenzierung] - USP klar
-```
-
-#### Business Outcomes - Quantifizierungs-Check:
-
-```markdown
-ERLAUBT (konkret):
-✅ "Conversion Rate steigt von 12% auf 18% (+50%) innerhalb 6 Monate"
-✅ "Support-Tickets sinken um 40% (von 200/Woche auf 120/Woche)"
-✅ "Time-to-Market reduziert von 8 Wochen auf 4 Wochen (-50%)"
-
-VERBOTEN (zu vage):
-❌ "Verbessert User Experience"
-❌ "Macht den Prozess schneller"
-❌ "Erhöht die Zufriedenheit"
-```
-
----
-
-### 3. Feature-Level Validierung
-
-#### Pflicht-Sections für Features:
+### Pflicht-Sections für Features
 
 ```markdown
 CHECK beim Speichern:
@@ -134,316 +150,314 @@ CHECK beim Speichern:
 1. ✅ Feature Description vorhanden? (1-2 Absätze)
 2. ✅ Benefits Hypothesis vollständig?
 3. ✅ User Stories vorhanden? (min. 1-3)
-4. ✅ Functional Acceptance Criteria testbar? (min. 3)
-5. ✅ Non-Functional Requirements quantifiziert?
-6. ✅ Architecture Considerations vorhanden?
-7. ✅ ASRs identifiziert und markiert? (🔴/🟡)
-8. ✅ Definition of Done vollständig?
-9. ✅ Dependencies dokumentiert?
-10. ✅ Out of Scope definiert?
+4. ✅ Success Criteria (Tech-Agnostic) Section vorhanden?
+   - ✅ Alle Kriterien tech-frei?
+   - ✅ Messbar?
+   - ✅ User-outcome fokussiert?
+5. ✅ Technical NFRs Section vorhanden?
+   - Performance (mit Zahlen)
+   - Security (spezifisch)
+   - Scalability (messbar)
+   - Availability (Uptime %)
+6. ✅ ASRs identifiziert? (🔴/🟡)
+7. ✅ Definition of Done vollständig?
 ```
 
-#### User Story Format Validierung:
+### Success Criteria Format
 
 ```markdown
-CHECK jede User Story:
+## 📊 Success Criteria (Tech-Agnostic)
 
-✅ "Als [Rolle] möchte ich [Ziel], um [Nutzen] zu erreichen"
-✅ Rolle ist spezifisch (nicht nur "User")
-✅ Ziel ist klar und actionable
-✅ Nutzen ist business-orientiert
+> ⚠️ KEINE Technologie-Begriffe! Diese gehen in specify-context.md
 
-Beispiel - GUT:
-✅ "Als Premium-Kunde möchte ich meine Bestellhistorie filtern,
-    um schnell bestimmte Käufe zu finden"
+| ID | Criterion | Target | Measurement |
+|----|-----------|--------|-------------|
+| SC-01 | {User-outcome} | {Wert} | {Methode} |
+| SC-02 | {Verhalten} | {Wert} | {Methode} |
 
-Beispiel - SCHLECHT:
-❌ "Als User möchte ich Daten sehen"
+BEISPIELE - RICHTIG:
+| SC-01 | User task completion rate | > 95% | UAT testing |
+| SC-02 | Perceived response time | < 2 seconds | User survey |
+| SC-03 | Concurrent user support | 100 users | Load testing |
+| SC-04 | Data query efficiency | 100K records | Synthetic data test |
+
+BEISPIELE - FALSCH (werden rejected):
+| SC-01 | API response time | < 200ms | Monitoring | ← "API", "ms"
+| SC-02 | OAuth login success | > 99% | Logs | ← "OAuth"
 ```
 
-#### Acceptance Criteria - Testbarkeits-Check:
+### Technical NFRs Format
 
 ```markdown
-ERLAUBT (testbar):
-✅ "API Endpoint GET /api/users gibt HTTP 200 zurück"
-✅ "Response Zeit < 200ms für 95% der Requests"
-✅ "Alle User-Eingaben werden XSS-sanitized"
-✅ "Max 3 Klicks bis zur Ziel-Funktion"
+## 🔧 Technical NFRs (für Architekt)
 
-VERBOTEN (nicht testbar):
-❌ "System soll schnell sein"
-❌ "Sicheres System"
-❌ "User-friendly Interface"
-❌ "Gute Performance"
+> Diese Section DARF technische Details enthalten!
+
+### Performance
+- **Response Time**: < 200ms für 95% der Requests
+- **Throughput**: 100 req/sec sustained
+- **Caching**: Redis mit 5min TTL für hot data
+
+### Security
+- **Authentication**: OAuth 2.0 via Azure AD
+- **Authorization**: RBAC mit 3 Rollen
+- **Encryption**: TLS 1.3 in transit, AES-256 at rest
+
+### Scalability
+- **Concurrent Users**: 1,000 (auto-scale to 10,000)
+- **Data Volume**: 10GB initial, 5GB/month growth
+- **Horizontal Scaling**: Kubernetes HPA
+
+### Availability
+- **Uptime**: 99.9% (8.7h downtime/year)
+- **RTO**: 15 minutes
+- **RPO**: 5 minutes
 ```
 
 ---
 
-### 4. Non-Functional Requirements (NFRs) - KRITISCH!
+## 🔍 Epic-Level Validierung (PoC & MVP)
 
-#### NFR Quantifizierungs-Validation:
+### Pflicht-Sections für Epics
 
 ```markdown
-PFLICHT-KATEGORIEN:
+CHECK beim Speichern:
 
-1. **Performance**
-   ✅ Response Time: [X ms für Y% der Requests]
-   ✅ Throughput: [X Requests/Second]
-   ✅ Resource Usage: [Max CPU/Memory]
-
-2. **Security**
-   ✅ Authentication: [OAuth 2.0, JWT, etc.]
-   ✅ Authorization: [RBAC, ABAC, etc.]
-   ✅ Encryption: [At Rest: AES-256, In Transit: TLS 1.3]
-   ✅ Compliance: [GDPR Art. X, SOC2, HIPAA]
-
-3. **Scalability**
-   ✅ Concurrent Users: [X simultane User]
-   ✅ Data Volume: [Y GB/TB]
-   ✅ Growth Rate: [Z% pro Jahr]
-
-4. **Availability**
-   ✅ Uptime: [99.9% = ~8.7h Downtime/Jahr]
-   ✅ RTO (Recovery Time): [X Minuten]
-   ✅ RPO (Recovery Point): [X Minuten]
-
-5. **Maintainability**
-   ✅ Code Coverage: [Min. X%]
-   ✅ Documentation Requirements
-   ✅ Logging Requirements
+1. ✅ Epic Hypothesis Statement vollständig? (7/7 Komponenten)
+2. ✅ Business Outcomes quantifiziert?
+3. ✅ Leading Indicators definiert?
+4. ✅ MVP Features Liste vorhanden? (min. 3)
+5. ✅ Features priorisiert? (P0/P1/P2)
+6. ✅ Out-of-Scope explizit?
+7. ✅ Dependencies dokumentiert?
+8. ✅ Risks identifiziert?
+9. ✅ Technical Debt dokumentiert? (nur PoC)
 ```
 
-**Beispiele - GUT vs SCHLECHT:**
+### Epic Hypothesis Statement Check
 
 ```markdown
-❌ SCHLECHT (vage):
-"System soll schnell und skalierbar sein mit hoher Verfügbarkeit"
+Pflicht-Komponenten:
 
-✅ GUT (quantifiziert):
-Performance:
-  - Response Time: < 200ms für 95% der Requests, < 500ms für 99%
-  - Throughput: Min. 100 Requests/Second
+✅ FÜR [Zielkunden-Segment]
+✅ DIE [Bedarf/Problem haben]
+✅ IST DAS [Produkt/Lösung]
+✅ EIN [Produktkategorie]
+✅ DAS [Hauptnutzen bietet]
+✅ IM GEGENSATZ ZU [Alternative]
+✅ UNSERE LÖSUNG [Differenzierung]
 
-Scalability:
-  - Support für 10,000 concurrent users
-  - Handling von 1TB Datenvolumen
-
-Availability:
-  - Uptime: 99.9% (max 8.7h Downtime/Jahr)
-  - RTO: 15 Minuten
-  - RPO: 5 Minuten
+ALLE 7 müssen vorhanden sein!
 ```
 
 ---
 
-### 5. Architecturally Significant Requirements (ASRs) - KRITISCH!
+## 🔍 specify-context.md Validierung
 
-#### ASR Identifikation & Markierung:
+### Pflicht-Sections
 
 ```markdown
-CHECK Architecture Considerations Section:
+CHECK requirements/handoff/specify-context.md:
 
-✅ Mindestens 1 ASR identifiziert?
-✅ ASRs mit 🔴 (Critical) oder 🟡 (Moderate) markiert?
-✅ Für jedes ASR erklärt WARUM es architektur-relevant ist?
-✅ Quality Attribute zugeordnet? (Performance/Security/etc.)
-✅ Impact auf Architektur beschrieben?
-
-ASR Template:
-🔴 **CRITICAL ASR #1**: [Beschreibung]
-- **Warum ASR**: [Begründung]
-- **Impact**: [Architektur-Entscheidung die benötigt wird]
-- **Quality Attribute**: [Performance/Security/Scalability/etc.]
-- **Constraint**: [Technische/Business Constraints]
+1. ✅ Problem Statement vorhanden? (2-3 Sätze)
+2. ✅ Target Users spezifisch? (nicht "Users")
+3. ✅ Core Functionality als User Stories?
+4. ✅ Success Criteria Section vorhanden?
+   - ✅ ALLE Kriterien tech-agnostisch?
+   - ✅ Keine FORBIDDEN_TERMS?
+5. ✅ Scope In/Out definiert?
+6. ✅ Constraints dokumentiert?
+7. ✅ Dependencies gelistet?
+8. ✅ Assumptions dokumentiert?
 ```
 
-**Beispiele für ASRs:**
+### Automatische Tech-Begriff-Prüfung
 
 ```markdown
-✅ GUT - ASR richtig identifiziert:
+SCAN specify-context.md für verbotene Begriffe:
 
-🔴 **CRITICAL ASR**: Response Time < 200ms für 95% der Requests
-- **Warum ASR**: Beeinflusst fundamentale Architektur-Entscheidungen
-- **Impact**: 
-  - Benötigt Caching-Layer (Redis/Memcached)
-  - Benötigt CDN für statische Assets
-  - Benötigt Load Balancing
-- **Quality Attribute**: Performance
+Bei Fund:
+❌ specify-context.md enthält Technologie-Begriffe!
 
-🟡 **MODERATE ASR**: GDPR Art. 17 (Right to be Forgotten)
-- **Warum ASR**: Beeinflusst Data Architecture
-- **Impact**:
-  - Soft Delete Pattern erforderlich
-  - Data Retention Policies
-- **Quality Attribute**: Security/Compliance
+Gefunden in "Success Criteria" Section:
+  Line 42: "OAuth 2.0 authentication" 
+           └── Verboten: OAuth
+  Line 45: "Response < 200ms"
+           └── Verboten: ms
 
-❌ SCHLECHT - Kein ASR, nur NFR:
+Diese Begriffe verhindern korrektes /speckit.specify!
 
-"Code Coverage > 80%"
-→ Das ist ein NFR, aber KEIN ASR (beeinflusst keine Architektur)
+Aktion erforderlich:
+  1. Ersetze technische Begriffe durch User-Outcomes
+  2. Verschiebe technische Details in Technical NFRs
+  3. Re-validiere specify-context.md
 ```
 
 ---
 
-### 6. Definition of Done Vollständigkeits-Check
+## 📊 Quality Gate: Spec Kit Ready Check
 
-```markdown
-CHECK Definition of Done:
+### Feature ist Spec Kit Ready wenn:
 
-✅ Alle Functional Acceptance Criteria als Checkboxen?
-✅ NFR-Validierung inkludiert?
-✅ Testing Requirements definiert?
-   - Unit Tests (Coverage %)
-   - Integration Tests
-   - Performance Tests (wenn relevant)
-   - Security Tests
-✅ Review Gates definiert?
-   - Architecture Review
-   - Code Review
-   - UAT
-✅ Documentation Requirements?
-
-Minimum DoD:
-- [ ] Alle Functional Acceptance Criteria erfüllt
-- [ ] Alle NFRs validiert
-- [ ] Unit Tests (Coverage > [X%])
-- [ ] Integration Tests bestanden
-- [ ] Security Scan bestanden
-- [ ] Architecture Review abgeschlossen
-- [ ] Code Review abgeschlossen
-- [ ] Documentation aktualisiert
-- [ ] Deployed in Staging
-- [ ] UAT bestanden
+```
+✅ Success Criteria Section vorhanden
+✅ ALLE Success Criteria tech-agnostisch
+✅ Keine FORBIDDEN_TERMS in Success Criteria
+✅ Kriterien sind messbar
+✅ Kriterien fokussieren auf User-Outcomes
+✅ Technical NFRs separat dokumentiert
 ```
 
----
+### specify-context.md ist Ready wenn:
 
-### 7. Architect-Handoff-Dokument Validierung
-
-#### Pflicht-Sections für Architect Handoff:
-
-```markdown
-CHECK requirements/handoff/architect-handoff.md:
-
-1. ✅ Executive Summary vorhanden?
-2. ✅ Requirements Package vollständig?
-3. ✅ ASRs Section vorhanden?
-4. ✅ NFR Summary Table vorhanden?
-5. ✅ Context & Integration Section?
-6. ✅ Technology Stack Recommendations?
-7. ✅ Constraints dokumentiert?
-8. ✅ Open Questions Section?
-9. ✅ Next Steps for Architect definiert?
-10. ✅ Traceability Matrix vorhanden?
-11. ✅ Success Criteria definiert?
+```
+✅ Alle Pflicht-Sections vorhanden
+✅ Problem Statement klar (2-3 Sätze)
+✅ User Personas spezifisch
+✅ User Stories im "Als/möchte/um" Format
+✅ Success Criteria ALLE tech-agnostisch
+✅ Scope Boundaries explizit
+✅ Keine FORBIDDEN_TERMS im gesamten Dokument
 ```
 
----
+### Erfolgs-Meldung
 
-## 📊 Quality Gate: Architect-Ready Check
+```
+✅ SPEC KIT READY!
 
-**Ein Feature/Epic ist Architect-Ready wenn:**
-
-### Epic-Level (PoC/MVP):
-```
-✅ Hypothesis Statement vollständig (7/7 Komponenten)
-✅ Business Outcomes quantifiziert (Baseline, Target, Timeframe)
-✅ Leading Indicators definiert
-✅ Features priorisiert (P0/P1/P2)
-✅ Out-of-Scope explizit definiert
-✅ Dependencies dokumentiert
-✅ Technical Debt dokumentiert (PoC only)
-```
-
-### Feature-Level:
-```
-✅ Benefits Hypothesis klar
-✅ User Stories vollständig (Als/möchte/um)
-✅ Acceptance Criteria testbar (pass/fail)
-✅ NFRs quantifiziert (ALLE mit Zahlen!)
-✅ ASRs identifiziert und markiert (🔴/🟡)
-✅ Architecture Impact beschrieben
-✅ Definition of Done vollständig
-✅ Dependencies dokumentiert
-✅ Out of Scope definiert
-```
-
-### Handoff-Level:
-```
-✅ Alle Epics/Features verlinkt
-✅ Alle ASRs in Handoff-Dokument gelistet
-✅ NFR Summary Table vorhanden
-✅ Open Questions priorisiert
-✅ Constraints dokumentiert
-✅ Traceability Matrix vorhanden
-✅ Success Criteria definiert
-```
-
-**Wenn ALLE Checks ✅:**
-```
-🎉 ARCHITECT-READY!
-
+Datei: requirements/handoff/specify-context.md
 Status: Alle Validierungen bestanden
-Next: Übergabe an Architect Agent
 
-Der Architekt kann jetzt:
-  1. ASRs reviewen
-  2. ADRs erstellen
-  3. ARC42 Documentation starten
-  4. Technology Stack Decisions treffen
+Success Criteria Validation:
+  ✅ 5/5 Kriterien tech-agnostisch
+  ✅ Keine verbotenen Begriffe gefunden
+  ✅ Alle Kriterien messbar
+
+Nächster Schritt:
+  → Copy prompt aus specify-context.md
+  → Paste in /speckit.specify
+  → Optional: Attach source documents als Kontext
+```
+
+### Fehler-Meldung
+
+```
+❌ NICHT SPEC KIT READY
+
+Datei: requirements/handoff/specify-context.md
+Problem: Tech-Begriffe in Success Criteria
+
+Gefunden:
+  ❌ SC-02: "OAuth 2.0 login" → Enthält "OAuth"
+  ❌ SC-04: "API response < 200ms" → Enthält "API", "ms"
+
+Korrektur erforderlich:
+  SC-02: ✅ "Secure user authentication"
+  SC-04: ✅ "Users experience instant feedback"
+
+Nach Korrektur erneut validieren!
 ```
 
 ---
 
-## 🔄 Feedback-Loops
+## 🚫 Anti-Patterns
 
-### Mit Business Analyst
+### ❌ Tech-Begriffe in Success Criteria
 
-```markdown
-Feedback-Types an BA:
+```
+FALSCH (Success Criteria Section):
+"OAuth 2.0 authentication with JWT tokens"
+"REST API response < 200ms"
+"PostgreSQL queries with proper indexes"
 
-1. **MISSING_CRITICAL_INFO**
-   → Beispiel: "User Personas nicht definiert"
-   
-2. **UNCLEAR_SCOPE**
-   → Beispiel: "In-Scope vs Out-of-Scope unklar"
-   
-3. **MISSING_BUSINESS_OUTCOMES**
-   → Beispiel: "Keine messbaren Business Outcomes"
+RICHTIG (Success Criteria Section):
+"Secure user authentication"
+"Users experience instant response"
+"System handles large datasets efficiently"
 ```
 
-### Mit Architekt
+### ❌ Success Criteria ohne Messbarkeit
 
-```markdown
-Feedback-Types von Architect:
+```
+FALSCH:
+"Good user experience"
+"Fast performance"
+"Secure system"
 
-1. **REQUIREMENTS_UNCLEAR**
-   → Konkretisiere betroffenes Feature
-   
-2. **NEED_ADDITIONAL_NFR**
-   → Ergänze fehlende NFR mit Zahlen
-   
-3. **ASR_NOT_CLEAR**
-   → Erkläre besser WARUM es ein ASR ist
+RICHTIG:
+"95% task completion rate in UAT"
+"Users perceive response as instant (<2 sec)"
+"No unauthorized data access in security audit"
+```
+
+### ❌ Implementierungs-Details in Success Criteria
+
+```
+FALSCH:
+"Use Redis for caching"
+"Implement microservices architecture"
+"Deploy on Kubernetes"
+
+RICHTIG:
+"Frequently accessed data loads instantly"
+"System components can scale independently"
+"System handles traffic spikes gracefully"
 ```
 
 ---
 
-## 📋 Zusammenfassung
+## 🔄 Workflow mit Spec Kit
 
-Diese Instructions stellen sicher:
+### RE Agent Workflow
 
-✅ **Epic-Qualität** - Vollständige Business-Context für Architekt  
-✅ **Feature-Qualität** - Testbare Acceptance Criteria, quantifizierte NFRs  
-✅ **ASR-Identifikation** - Architekt weiß welche Requirements kritisch sind  
-✅ **NFR-Quantifizierung** - Keine vagen Aussagen, nur Zahlen  
-✅ **Handoff-Vollständigkeit** - Architekt hat alle Informationen  
-✅ **Traceability** - Jedes Requirement zu Business Goal verbunden  
+```
+1. BA-Dokument lesen
+2. Epic erstellen (wenn PoC/MVP)
+3. Features erstellen:
+   - Success Criteria (TECH-AGNOSTISCH!)
+   - Technical NFRs (für Architekt)
+4. specify-context.md erstellen
+5. Validierung durchführen
+6. Handoff an Architect
+```
 
-**Ziel:** Architekt kann **sofort** mit ADRs und ARC42 starten, ohne zurück zu fragen!
+### Spec Kit Integration Points
+
+```
+RE Agent Output              → Spec Kit Input
+─────────────────────────────────────────────
+Success Criteria (tech-agnostic) → /speckit.specify
+Technical NFRs               → Architect → /speckit.plan
+Features                     → spec.md context
+Constraints                  → constitution.md
+```
 
 ---
 
-**Version:** 4.0 (Aktualisiert für GitHub Copilot Agents)
-**Focus:** Epics & Features only (keine Issues/Tasks)
-**Quality Gate:** Architect-Ready Validation
+## ✅ Checkliste vor Handoff
+
+### An Architect
+
+```
+- [ ] Alle Features haben Success Criteria (tech-agnostic)
+- [ ] Alle Features haben Technical NFRs (quantifiziert)
+- [ ] Alle ASRs identifiziert (🔴/🟡)
+- [ ] architect-handoff.md erstellt
+- [ ] Open Questions dokumentiert
+```
+
+### Für Spec Kit
+
+```
+- [ ] specify-context.md erstellt
+- [ ] KEINE Tech-Begriffe in Success Criteria
+- [ ] Prompt für /speckit.specify copy-paste ready
+- [ ] Source Documents referenziert
+- [ ] Pre-Specify Checklist durchgeführt
+```
+
+---
+
+**Version:** 2.0 (mit Spec Kit Integration)
+**Focus:** Tech-agnostische Success Criteria + NFR-Trennung
+**Quality Gate:** Spec Kit Ready Validation

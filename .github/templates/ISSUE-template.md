@@ -1,282 +1,318 @@
-# ISSUE-XXX: [Action-Oriented Title - What to Build]
+# ISSUE-{XXX}: {Title}
 
-> **Feature:** [FEATURE-XXX](../features/FEATURE-XXX-*.md) - [Feature Name]  
-> **ID:** ISSUE-XXX  
-> **Type:** Feature | Bug Fix | Refactor | Test | Documentation  
-> **Priority:** P0-Critical | P1-High | P2-Medium | P3-Low  
-> **Effort:** Tiny (2-4h) | Small (4-8h) | Medium (1-2d) | Large (2-3d)  
-> **Status:** 📋 Ready | 🔵 In Progress | ✅ Done | ❌ Blocked  
-> **Sprint:** Sprint X | Backlog  
-> **Created:** YYYY-MM-DD  
+> **Feature:** FEATURE-{XXX} - {Feature Name}
+> **Type:** [Feature / Bug / Tech Debt / Spike / Documentation]
+> **Effort:** [S: <1 day / M: 1-2 days / L: 2-3 days]
+> **Priority:** [P0-Critical / P1-High / P2-Medium / P3-Low]
+> **Status:** [Backlog / Ready / In Progress / In Review / Done]
 
 ---
 
-> ⚠️ **ATOMIC ISSUE PRINCIPLE:** Dieses Issue muss in 1-3 Tagen abschließbar sein!  
-> Falls >3 Tage geschätzt → Issue muss aufgeteilt werden.
+## ⚠️ Atomicity Check
+
+> ISSUEs MÜSSEN atomar sein: 1-3 Tage maximale Bearbeitungszeit
+
+**Self-Check vor dem Erstellen:**
+- [ ] Kann in 1-3 Tagen abgeschlossen werden
+- [ ] Hat max. 5 Acceptance Criteria
+- [ ] Betrifft max. 2-3 API Endpoints
+- [ ] Betrifft max. 2 Entitäten
+- [ ] Titel enthält kein "und" (z.B. "Setup AND Configure AND Test")
+
+**Wenn einer dieser Checks NEIN ist → ISSUE aufteilen!**
 
 ---
 
-## 📝 Context
+## Description
 
-[1-2 Absätze: Warum existiert dieses Issue? Welches Problem löst es? Business Context.]
+{Kurze, prägnante Beschreibung was implementiert werden soll}
 
-**Contribution to Feature:**  
-[Wie ermöglicht dieses Issue das Parent Feature?]
+**Context:**
+{Warum ist diese Implementierung notwendig? Welches Problem löst sie?}
 
-**User Impact:**  
-[Wie werden End-User diese Funktionalität erleben?]
-
----
-
-## 🏗️ Architectural Context
-
-**Related ADRs:**
-- [ADR-XXX](../../architecture/ADR-XXX-*.md) - [Decision Title]
-- [ADR-YYY](../../architecture/ADR-YYY-*.md) - [Decision Title]
-
-**arc42 Reference:**  
-Section [X.X] - [Section Name]
-
-**Architectural Decision Summary:**  
-> Wir haben uns für [Entscheidung] entschieden, weil [Rationale aus ADR].  
-> Dies bedeutet für dieses Issue: [Implikation].
-
-**Component:**  
-[Welche architektonische Komponente betrifft dieses Issue?]
-
-**System Context:**
-```
-[Einfaches Diagramm oder Beschreibung wo dieses Issue im System liegt]
-
-[Component A] → [DIESES ISSUE] → [Component B]
-                      ↓
-               [External API]
-```
+**User Story Reference:**
+> Als {Rolle} möchte ich {Funktionalität} um {Nutzen}
 
 ---
 
-## 📋 Requirements
+## Acceptance Criteria
 
-### Functional Requirements
+> Alle Kriterien müssen testbar sein (pass/fail)
 
-**Was gebaut werden muss:**
+- [ ] {Konkretes, testbares Kriterium 1}
+- [ ] {Konkretes, testbares Kriterium 2}
+- [ ] {Konkretes, testbares Kriterium 3}
+- [ ] Error handling implementiert für {Szenarien}
+- [ ] Logging implementiert für {wichtige Aktionen}
 
-1. [Spezifische Anforderung 1]
-2. [Spezifische Anforderung 2]
-3. [Spezifische Anforderung 3]
-
-**Beispiel (falls hilfreich):**
-```python
-# Erwartete Struktur/Pattern (NICHT vollständige Implementation!)
-class UserModel:
-    email: str
-    password_hash: str
-    created_at: datetime
-```
-
-### Non-Functional Requirements
-
-**Performance (falls relevant):**
-- [Requirement mit konkretem Wert]
-
-**Security (falls relevant):**
-- [Requirement mit konkretem Standard]
+**Beispiele für gute Acceptance Criteria:**
+- ✅ "POST /api/users returns 201 with user object on success"
+- ✅ "POST /api/users returns 400 with validation errors for invalid email"
+- ✅ "User entity has fields: id, email, name, created_at"
+- ❌ "API works correctly" (zu vage)
+- ❌ "Good error handling" (nicht testbar)
 
 ---
 
-## 🎯 Acceptance Criteria
+## Technical Requirements
 
-> ⚠️ **Jedes Kriterium muss eindeutig testbar sein!**
+### Architecture Constraints (ADR References)
 
-**Dieses Issue ist fertig wenn:**
+> Jedes ISSUE MUSS mindestens 1 ADR referenzieren!
 
-- [ ] **AC1:** [Spezifisch und testbar]
-  - Verification: [Wie wird das verifiziert?]
-  
-- [ ] **AC2:** [Spezifisch und testbar]
-  - Verification: [Wie wird das verifiziert?]
-  
-- [ ] **AC3:** [Spezifisch und testbar]
-  - Verification: [Wie wird das verifiziert?]
+| ADR | Relevant Decision | Constraint for this ISSUE |
+|-----|-------------------|---------------------------|
+| ADR-{XXX} | {Entscheidung} | {Was muss beachtet werden} |
+| ADR-{YYY} | {Entscheidung} | {Was muss beachtet werden} |
 
-**Gherkin Scenarios (aus Feature):**
-- [Scenario aus FEATURE-XXX](../features/FEATURE-XXX-*.md#scenario-1)
+**Beispiel:**
+| ADR | Relevant Decision | Constraint |
+|-----|-------------------|------------|
+| ADR-001 | Use FastAPI | All endpoints must use FastAPI routers |
+| ADR-002 | Use PostgreSQL | Use SQLAlchemy 2.0 for data access |
+| ADR-003 | OAuth 2.0 | Endpoints require Bearer token validation |
 
----
+### API Contract (wenn relevant)
 
-## 🔧 Implementation Guidance
-
-> ℹ️ **High-Level Guidance, NICHT Step-by-Step!** Developer entscheidet über Details.
-
-**Files to Create/Modify:**
-```
-src/models/user.py      # Create
-src/services/auth.py    # Modify
-tests/test_user.py      # Create
-docs/api/users.md       # Update
+```yaml
+# OpenAPI-style specification
+endpoint: {HTTP Method} {Path}
+description: {What this endpoint does}
+request:
+  headers:
+    Authorization: Bearer {token}
+  body:
+    type: object
+    properties:
+      field1:
+        type: string
+        required: true
+      field2:
+        type: integer
+        required: false
+response:
+  success:
+    status: 200/201/204
+    body:
+      type: object
+      properties:
+        id: string
+        field1: string
+  error:
+    400:
+      description: Validation error
+      body: { errors: [{field, message}] }
+    401:
+      description: Unauthorized
+    404:
+      description: Not found
 ```
 
-**Suggested Approach:**
-1. [High-Level Schritt - z.B. "Define User model mit SQLAlchemy"]
-2. [High-Level Schritt - z.B. "Add validation methods"]
-3. [High-Level Schritt - z.B. "Create database migration"]
+### Data Model (wenn relevant)
 
-**Key Patterns/Standards:**
-- Follow [Pattern aus ADR-XXX]
-- Use [Library] for [Purpose]
-- Reference [Example in Codebase]
+```
+Entity: {EntityName}
+├── id: UUID (PK)
+├── field1: string (required, max 255)
+├── field2: integer (optional)
+├── created_at: timestamp (auto)
+├── updated_at: timestamp (auto)
+└── relations:
+    └── {RelatedEntity}: {relationship type}
 
----
+Indexes:
+├── idx_{entity}_field1 (field1)
+└── idx_{entity}_created (created_at)
 
-## 🔒 Architectural Constraints (Non-Negotiable!)
+Constraints:
+├── unique (field1)
+└── check (field2 > 0)
+```
 
-> ⚠️ **MUST/MUST NOT - Diese Constraints sind nicht verhandelbar!**
+### Technology Stack (aus ADRs)
 
-**MUST:**
-- [Constraint 1 - z.B. "Use bcrypt for password hashing (ADR-XXX)"]
-- [Constraint 2 - z.B. "Follow RESTful conventions"]
-- [Constraint 3 - z.B. "All endpoints require authentication"]
-
-**MUST NOT:**
-- [Anti-Pattern 1 - z.B. "Store passwords in plain text"]
-- [Anti-Pattern 2 - z.B. "Use synchronous calls to external APIs"]
-- [Anti-Pattern 3 - z.B. "Hardcode configuration values"]
-
-**Performance Constraints (falls kritisch):**
-- [z.B. "Query must complete in <100ms"]
-
-**Security Constraints (falls kritisch):**
-- [z.B. "All user input must be sanitized"]
+| Component | Technology | Version | Notes |
+|-----------|------------|---------|-------|
+| Language | {z.B. Python} | {z.B. 3.11+} | ADR-001 |
+| Framework | {z.B. FastAPI} | {z.B. 0.104+} | ADR-001 |
+| Database | {z.B. PostgreSQL} | {z.B. 15} | ADR-002 |
+| ORM | {z.B. SQLAlchemy} | {z.B. 2.0} | ADR-002 |
 
 ---
 
-## 🔓 Open for Developer Decision
+## Implementation Notes
 
-> ✅ **Developer hat volle Autonomie über diese Aspekte:**
+### Suggested Approach
 
-- **Internal Code Structure:** [z.B. "How to organize helper functions"]
-- **Variable/Method Naming:** [Developer's choice within style guide]
-- **Algorithm Choice:** [z.B. "Choice of sorting algorithm" - unless constrained]
-- **Library Selection:** [z.B. "Choice of validation library within stack"]
-- **Error Message Wording:** [Developer's choice]
-- **Logging Details:** [What/how much to log]
-- **Test Organization:** [How to structure test files]
+> Empfohlene Schritte für die Implementierung
+
+1. **Setup** (optional): {Vorbereitende Schritte}
+2. **Data Layer**: {Entity/Repository erstellen}
+3. **Business Logic**: {Service Layer implementieren}
+4. **API Layer**: {Endpoint implementieren}
+5. **Tests**: {Test Cases schreiben}
+6. **Documentation**: {API Docs aktualisieren}
+
+### Code Structure
+
+```
+src/
+├── {module}/
+│   ├── models/
+│   │   └── {entity}.py          # SQLAlchemy Model
+│   ├── repositories/
+│   │   └── {entity}_repository.py
+│   ├── services/
+│   │   └── {entity}_service.py
+│   ├── api/
+│   │   └── {entity}_router.py   # FastAPI Router
+│   └── schemas/
+│       └── {entity}_schema.py   # Pydantic Schemas
+└── tests/
+    └── {module}/
+        ├── test_{entity}_repository.py
+        └── test_{entity}_router.py
+```
+
+### Edge Cases
+
+> Wichtige Edge Cases die behandelt werden müssen
+
+| Edge Case | Expected Behavior | Test Case |
+|-----------|-------------------|-----------|
+| {Edge Case 1} | {Wie soll System reagieren} | {Test Name} |
+| {Edge Case 2} | {Wie soll System reagieren} | {Test Name} |
+| {Edge Case 3} | {Wie soll System reagieren} | {Test Name} |
+
+### Security Considerations
+
+- [ ] Input Validation: {Welche Felder validieren}
+- [ ] Authorization: {Welche Rollen haben Zugriff}
+- [ ] Rate Limiting: {Wenn applicable}
+- [ ] Audit Logging: {Welche Aktionen loggen}
 
 ---
 
-## 🧪 Testing Requirements
+## Testing Requirements
 
-> ⚠️ **MANDATORY - Issue ist nicht Done ohne Tests!**
+### Unit Tests
 
-### Unit Tests (PFLICHT)
+| Test Case | Description | Priority |
+|-----------|-------------|----------|
+| test_{function}_success | Happy path | P0 |
+| test_{function}_invalid_input | Validation | P0 |
+| test_{function}_not_found | 404 handling | P1 |
+| test_{function}_unauthorized | Auth check | P1 |
 
-- [ ] Test happy path scenario
-- [ ] Test error handling (invalid input)
-- [ ] Test edge cases: [spezifische Edge Cases]
-- [ ] Test validation logic
-- [ ] Test error messages
+**Coverage Target:** > {X}% für dieses ISSUE
 
-**Minimum Coverage:** 80% für neuen Code
+### Integration Tests
 
-### Integration Tests (falls relevant)
+| Test Case | Description | Dependencies |
+|-----------|-------------|--------------|
+| test_{endpoint}_e2e | Full flow test | Database |
+| test_{endpoint}_with_{external} | External integration | {Service} |
 
-- [ ] Test [Integration Scenario 1]
-- [ ] Test [Integration Scenario 2]
-- [ ] Test database interactions
-- [ ] Test API responses
+### Manual Testing Checklist
 
-### Performance Tests (falls NFR definiert)
-
-- [ ] Response time < [X]ms
-- [ ] Can handle [X] concurrent requests
+- [ ] Happy path funktioniert
+- [ ] Error cases zeigen korrekte Meldungen
+- [ ] Performance akzeptabel
+- [ ] Logs sind aussagekräftig
 
 ---
 
-## ✅ Definition of Done
+## Dependencies
 
-**Code:**
-- [ ] Code implementiert wie spezifiziert
-- [ ] Alle Acceptance Criteria erfüllt
-- [ ] Alle Architectural Constraints eingehalten
-- [ ] Code follows Style Guide
-- [ ] Keine Linting Errors
+### Blocked By
 
-**Tests:**
-- [ ] Unit Tests geschrieben und bestanden
-- [ ] Integration Tests bestanden (falls relevant)
-- [ ] Coverage > 80% für neuen Code
+| ISSUE | Description | Status | ETA |
+|-------|-------------|--------|-----|
+| ISSUE-{XXX} | {Warum blockiert} | {Status} | {Datum} |
 
-**Quality:**
+### Blocks
+
+| ISSUE | Description | Impact if Delayed |
+|-------|-------------|-------------------|
+| ISSUE-{YYY} | {Was wird blockiert} | {Impact} |
+
+### External Dependencies
+
+| Dependency | Owner | Status | Notes |
+|------------|-------|--------|-------|
+| {System/API} | {Team} | {Status} | {Notes} |
+
+---
+
+## Definition of Done
+
+### Code
+- [ ] Code implementiert gemäß Acceptance Criteria
+- [ ] Code folgt ADR Constraints
+- [ ] Code ist selbst-dokumentierend (klare Namen)
+- [ ] Keine TODO/FIXME ohne zugehöriges ISSUE
+
+### Tests
+- [ ] Unit Tests geschrieben (Coverage > {X}%)
+- [ ] Integration Tests geschrieben (wenn required)
+- [ ] Alle Tests grün
+
+### Quality
+- [ ] Linting passed
+- [ ] Type Checking passed (wenn applicable)
+- [ ] Security Scan passed
+- [ ] Performance acceptable
+
+### Review
 - [ ] Self-Review durchgeführt
-- [ ] Code Review bestanden
-- [ ] Keine bekannten Bugs
+- [ ] Code Review (min. 1 Approval)
+- [ ] Architecture-compliant (ADR check)
 
-**Documentation:**
-- [ ] Inline Comments wo nötig
-- [ ] API Documentation aktualisiert (falls API geändert)
-- [ ] README aktualisiert (falls nötig)
+### Documentation
+- [ ] API Docs aktualisiert (wenn API Änderung)
+- [ ] README aktualisiert (wenn Setup Änderung)
+- [ ] Inline Comments für komplexe Logik
 
-**Deployment:**
-- [ ] Committed mit klarer Message
-- [ ] CI/CD Pipeline passed
-- [ ] Deployed to Staging (falls relevant)
-
----
-
-## 🔗 Dependencies
-
-**Blocked By (Muss zuerst fertig sein):**
-- [ISSUE-XXX](./ISSUE-XXX-*.md) - [Warum blockiert]
-
-**Blocks (Wartet auf dieses Issue):**
-- [ISSUE-YYY](./ISSUE-YYY-*.md) - [Was wird ermöglicht]
-
-**Related (Keine Blockade, aber relevant):**
-- [ISSUE-ZZZ](./ISSUE-ZZZ-*.md) - [Wie sie zusammenhängen]
+### Deployment
+- [ ] PR merged to main
+- [ ] Deployed to Staging
+- [ ] Smoke Test in Staging passed
+- [ ] Ready for Production Deployment
 
 ---
 
-## 💡 Notes for Developer
+## Spec Kit Compatibility Note
 
-**Helpful Context:**
-[Zusätzlicher Kontext, Gotchas, oder Implementation Tips]
+> Diese ISSUEs können /speckit.tasks ERSETZEN oder ERGÄNZEN
 
-**Common Pitfalls:**
-- [Pitfall 1 zu vermeiden]
-- [Pitfall 2 zu vermeiden]
+**Option A: Skip /speckit.tasks (Empfohlen)**
+- Nutze diese ISSUEs direkt mit Developer Agent
+- ISSUEs sind bereits atomar (1-3 Tage)
+- ISSUEs haben ADR References
+- ISSUEs haben klare Acceptance Criteria
 
-**Helpful Resources:**
-- [Documentation Link]
-- [Example in Codebase]
-- [Stack Overflow / Blog Post]
-
----
-
-## 📚 References
-
-**Architecture:**
-- ADR: [Link zu relevantem ADR]
-- arc42: [Link zu relevantem Section]
-
-**Requirements:**
-- Feature: [Link zu FEATURE-XXX]
-- Gherkin Scenarios: [Link]
-
-**Technical:**
-- [Framework Documentation]
-- [API Reference]
+**Option B: Zusätzlich /speckit.tasks**
+- Nutze /speckit.tasks für weitere Granularität
+- Kann zusätzliche Tasks generieren
+- Vergleiche mit vorhandenen ISSUEs
 
 ---
 
-## 📝 Change Log
+## Notes
 
-| Datum | Änderung | Autor |
-|-------|----------|-------|
-| YYYY-MM-DD | Issue erstellt | Architect |
+{Zusätzliche Hinweise, Kontext, oder Referenzen}
 
 ---
 
-**Template Version:** 2.0  
-**Workflow:** RE (Feature) → Architect (erstellt Issue) → Developer (implementiert)  
-**Erstellt von:** Architect  
-**Atomic Principle:** Max 1-3 Tage Effort!
+## Changelog
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | {Date} | Architect Agent | Initial draft |
+| 1.1 | {Date} | {Author} | {Changes} |
+
+---
+
+**Created by:** Architect Agent
+**Ready for:** Developer Agent
+**ADR Compliance:** Verified
