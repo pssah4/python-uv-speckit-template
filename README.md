@@ -1,5 +1,3 @@
-
-
 # Refinement Agents with GitHub Spec Kit Integration
 
 > **AI-Powered Software Development Workflow** - From idea to production-ready code through structured, quality-gated phases.
@@ -358,22 +356,6 @@ This is an evolving system. Contributions welcome for:
 - Additional templates
 - Documentation improvements
 - Bug fixes
-
----
-
-## How to use in VS Code
-
-This Template is provided as Docker Devcontainer.
-
-1. **„Use this template“** → create new Repo erstellen (e.g. `my-spec-project`)
-3. local: 
-```bash
-git clone https://github.com/<your-user>/my-spec-project.git 
-cd my-spec-project 
-code .
-```
-    
-4. In VS Code: „Reopen in Container“
 
 ---
 
