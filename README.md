@@ -124,7 +124,7 @@ Each agent specializes in one phase, has built-in quality checks, and produces s
 - Need structured epics and features
 - Ready to define technical requirements
 
-**Input:** Business Analysis document OR direct user input  
+**Input:** Business Analysis document OR direct user input -> select mode und just type "continue"  
 **Output:**
 - `requirements/epics/EPIC-*.md`
 - `requirements/features/FEATURE-*.md`
@@ -176,126 +176,29 @@ Each agent specializes in one phase, has built-in quality checks, and produces s
 
 ---
 
-### 4. **Developer** (`@developer`)
-**Role:** Implement atomic tasks with mandatory testing
-
-**When to use:**
-- Architecture complete (QG2 passed)
-- Ready to write code
-- Have developer-ready issues in backlog
-
-**Input:** Issues from `backlog/ISSUE-*.md`  
-**Output:**
-- Production code (`src/**/*`)
-- Test code (`tests/**/*`)
-- Error logs if tests fail (`logs/ERROR-TASK-*.md`)
-
-**Key Features:**
-- **5-Phase Streamlined Workflow:**
-  1. Task Analysis & Setup
-  2. Implementation (code + tests)
-  3. Testing & Validation (ALL tests MANDATORY)
-  4. Validation & Commit
-  5. Completion & Metrics
-
-**Quality Gate 3 (QG3):**
-- ✅ ALL tests written (from task test plan)
-- ✅ ALL tests executed (full suite)
-- ✅ ALL tests passing OR error log created
-- ✅ Coverage ≥90%
-- ✅ Clean code principles applied
-- ✅ No TODOs or placeholders
-
-**Critical Rule:** **Tests are MANDATORY, not optional!**
-
----
-
-### 5. **Debugger** (`@debugger`)
-**Role:** Systematic error analysis and resolution
-
-**When to use:**
-- Tests failed after implementation
-- Have error log from Developer
-- Need root cause analysis
-
-**Input:** `logs/ERROR-TASK-*.md`  
-**Output:**
-- Fixed code
-- Updated tests
-- Resolution documentation
-
-**Key Features:**
-- **Fast Path:** Simple fixes in minutes (typos, missing imports)
-- **Systematic Path:** Complex issues with full analysis
-  - Root cause identification (not symptoms!)
-  - Fix strategy with multiple options
-  - Comprehensive testing
-  - No regressions
-
-**Quality Gate Debug (QGD):**
-- ✅ Root cause identified (not symptom)
-- ✅ Clean fix (no workarounds)
-- ✅ ALL tests run and passing
-- ✅ No regressions
-- ✅ Resolution documented
-
----
-
-## 📁 Repository Structure
-
-```
-digital-innovation-agents/
-├── .github/
-│   ├── chatmodes/                    # Agent definitions
-│   │   ├── business-analyst.chatmode.md
-│   │   ├── requirements-engineer.chatmode.md
-│   │   ├── architect.chatmode.md
-│   │   ├── developer.chatmode.md
-│   │   └── debugger.chatmode.md
-│   │
-│   ├── instructions/                 # Auto-validation rules
-│   │   ├── architect.instructions.md
-│   │   ├── developer.instructions.md
-│   │   ├── debugger.instructions.md
-│   │   └── requirements-engineer.instructions.md
-│   │
-│   ├── templates/                    # Document templates
-│   │   ├── EPIC-TEMPLATE.md
-│   │   ├── FEATURE-TEMPLATE.md
-│   │   ├── ISSUE-TEMPLATE.md
-│   │   ├── BUGFIX-TEMPLATE.md
-│   │   └── IMPROVEMENT-TEMPLATE.md
-│   │
-│   └── copilot-instructions.md       # Global agent overview
-│
-├── docs/                             # Documentation outputs
-│   ├── business-analysis/            # BA outputs
-│   ├── decisions/                    # ADRs from Architect
-│   └── arc42/                        # Architecture docs
-│
-├── requirements/                     # RE outputs
-│   ├── epics/                        # EPIC-*.md
-│   ├── features/                     # FEATURE-*.md
-│   └── handoff/                      # architect-handoff.md
-│
-├── backlog/                          # Architect outputs
-│   ├── Backlog.md                    # THE single source of truth
-│   └── ISSUE-*.md                    # Developer-ready issues
-│
-├── src/                              # Developer outputs (code)
-├── tests/                            # Developer outputs (tests)
-└── logs/                             # Error logs (when tests fail)
-```
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
 
 - **GitHub Copilot** with Chat enabled
-- Project with `.github/chatmodes/` directory
+- **Docker** installed
 - Understanding of your project scope (Simple Test / PoC / MVP)
+
+## 🔧 Configuration
+
+This Template is provided as Docker Devcontainer.
+
+1. **„Use this template“** → create new Repo erstellen (e.g. `my-spec-project`)
+3. local: 
+```bash
+git clone https://github.com/<your-user>/my-spec-project.git 
+cd my-spec-project 
+code .
+```    
+4. In VS Code: „Reopen in Container“
+5. Ignore the Spec Kit Setup, you are already setu up and ready to start.
+
+For use of Spec Kit please review official Spec Kit documentation: https://github.com/github/spec-kit/blob/main/README.md
 
 ### Quick Start
 
@@ -345,94 +248,6 @@ Step 1: Use @architect with your requirements
 ```
 
 ---
-
-## 💡 Example Usage
-
-### Starting a New Project
-
-```markdown
-User: I want to build a Notion importer that processes markdown files
-
-AI: [Detects @business-analyst should be used]
-
-@business-analyst:
-🎯 What are you developing?
-A) Simple Test/Quick Script
-B) Proof of Concept (PoC)  
-C) Minimum Viable Product (MVP)
-D) Own description
-
-User: B - I want to validate technical feasibility
-
-@business-analyst: [Conducts 15-25 questions interview]
-→ Creates: docs/business-analysis/BA-notion-importer.md
-
----
-
-User: Create requirements based on the BA document
-
-@requirements-engineer: [Reads BA document]
-→ Creates: requirements/epics/EPIC-001-content-migration.md
-→ Creates: requirements/features/FEATURE-001-markdown-import.md
-→ Creates: requirements/features/FEATURE-002-asset-upload.md
-→ Creates: requirements/handoff/architect-handoff.md
-
-Quality Gate 1 ✅ PASSED
-
----
-
-User: Design the architecture
-
-@architect: [Reads architect-handoff.md]
-→ Creates: docs/decisions/ADR-001-markdown-parser-choice.md
-→ Creates: docs/arc42/ARC42-DOCUMENTATION.md (sections 1,3,4 for PoC)
-→ Creates: backlog/Backlog.md
-→ Creates: backlog/ISSUE-001-markdown-parser.md
-→ Creates: backlog/ISSUE-002-frontmatter-extractor.md
-[... 10-30 atomic issues total]
-
-Quality Gate 2 ✅ PASSED
-
----
-
-User: Implement ISSUE-001
-
-@developer: [Reads ISSUE-001-markdown-parser.md]
-→ Phase 1: Analyzes task
-→ Phase 2: Implements code + writes tests
-→ Phase 3: Runs ALL tests
-  → Result: 2 tests failing ❌
-→ Creates: logs/ERROR-TASK-001-2025-11-05-1430.md
-→ Notifies: @debugger
-→ STOPS task execution
-
----
-
-User: @debugger fix the error
-
-@debugger: [Reads ERROR-TASK-001-2025-11-05-1430.md]
-→ Root Cause Analysis: Missing import statement
-→ Fast Path: Simple fix in 5 minutes
-→ Fixes code, runs ALL tests
-→ All tests passing ✅
-→ Updates error log with resolution
-→ Notifies: @developer can continue
-
-Quality Gate Debug ✅ PASSED
-
----
-
-User: Continue implementation
-
-@developer: [Resumes from Phase 3]
-→ All tests passing ✅
-→ Phase 4: Validates acceptance criteria
-→ Phase 5: Commits with informative message
-→ Task ISSUE-001 complete ✅
-
-Quality Gate 3 ✅ PASSED
-```
-
 ---
 
 ## 🎯 Key Principles
@@ -485,69 +300,8 @@ No phase proceeds until quality criteria met:
 - ✅ Issues atomic (1-3 days each)
 - ✅ Backlog.md as single source of truth
 
-### Development
-- ✅ Tests written during implementation
-- ✅ ALL tests executed (full suite)
-- ✅ Clean code (type hints, docstrings, no TODOs)
-- ✅ Coverage ≥90%
-
-### Debugging
-- ✅ Root cause identified (not symptom)
-- ✅ Clean fix (no workarounds)
-- ✅ Comprehensive testing (no regressions)
-- ✅ Learnings documented
-
 ---
 
-## 🔧 Configuration
-
-### Enable Agents in Your Project
-
-1. **Copy the `.github/` directory** to your project root
-
-2. **Customize chatmodes** (optional):
-   - Edit `.github/chatmodes/*.chatmode.md` for your needs
-   - Adjust complexity levels
-   - Add/remove tools
-
-3. **Use in GitHub Copilot Chat:**
-   ```
-   @business-analyst [your request]
-   @requirements-engineer [your request]
-   @architect [your request]
-   @developer [your request]
-   @debugger [your request]
-   ```
-
-### Agent Selection in Copilot
-
-GitHub Copilot automatically detects available agents from `.github/chatmodes/` and presents them in the agent picker.
-
----
-
-## 📚 Documentation
-
-- **[Global Overview](.github/copilot-instructions.md)** - Complete workflow and agent integration
-- **[Business Analyst Guide](.github/chatmodes/business-analyst.chatmode.md)** - Discovery and ideation
-- **[Requirements Engineer Guide](.github/chatmodes/requirements-engineer.chatmode.md)** - Epics and features
-- **[Architect Guide](.github/chatmodes/architect.chatmode.md)** - ADRs and system design
-- **[Developer Guide](.github/chatmodes/developer.chatmode.md)** - Test-driven implementation
-- **[Debugger Guide](.github/chatmodes/debugger.chatmode.md)** - Systematic debugging
-
-### Validation Rules
-- **[Architect Instructions](.github/instructions/architect.instructions.md)** - ADR and arc42 validation
-- **[Developer Instructions](.github/instructions/developer.instructions.md)** - Test enforcement
-- **[Debugger Instructions](.github/instructions/debugger.instructions.md)** - Error log validation
-- **[RE Instructions](.github/instructions/requirements-engineer.instructions.md)** - NFR and ASR validation
-
-### Templates
-- **[Epic Template](.github/templates/EPIC-TEMPLATE.md)**
-- **[Feature Template](.github/templates/FEATURE-TEMPLATE.md)**
-- **[Issue Template](.github/templates/ISSUE-TEMPLATE.md)**
-- **[Bugfix Template](.github/templates/BUGFIX-TEMPLATE.md)**
-- **[Improvement Template](.github/templates/IMPROVEMENT-TEMPLATE.md)**
-
----
 
 ## 🎓 Best Practices
 
