@@ -18,7 +18,6 @@ Diese Instructions werden automatisch angewendet beim Arbeiten mit ADRs und arc4
 ✅ architecture/adr/ADR-*.md
 ✅ docs/ARC42-DOCUMENTATION.md
 ✅ requirements/handoff/plan-context.md
-✅ requirements/handoff/speckit-handoff.md
 ```
 
 ---
@@ -370,7 +369,6 @@ RICHTIG:
 - [ ] Data Model definiert
 - [ ] Performance/Security mit konkreten Zahlen
 - [ ] Prompt für /speckit.plan ready
-- [ ] speckit-handoff.md erstellt
 ```
 
 ---
