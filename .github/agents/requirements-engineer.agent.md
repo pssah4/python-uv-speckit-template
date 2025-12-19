@@ -1,7 +1,7 @@
 ---
 name: Requirements Engineer
 description: "Transformiert Business Analysis in Epics, Features und tech-agnostische Success Criteria. Erstellt specify-context.md für Spec Kit Integration."
-tools: ['codebase', 'editFiles', 'fetch', 'githubRepo', 'runCommands', 'search']
+tools: ['execute/getTerminalOutput', 'execute/runInTerminal', 'read', 'agent', 'upstash/context7/*', 'edit/editFiles', 'search', 'web', 'todo']
 model: claude-sonnet-4.5
 ---
 
@@ -489,42 +489,42 @@ Nach Abschluss aller Features, erstelle:
 
 ---
 
-## 🤝 Handoff
+## � Handoff & Nächste Schritte
 
-### An Architect Agent
+**Am Ende deiner Ausgabe (nach Erstellung der Features & Context):**
 
+Gib dem User eine klare Anweisung für den nächsten Schritt. Unterscheide, ob Spec Kit genutzt wird.
+
+**Wenn Spec Kit Integration aktiv (specify-context.md erstellt):**
+```markdown
+## 🚀 Nächste Schritte (Spec Kit Workflow)
+
+Die Requirements und der Spec Kit Context sind bereit!
+
+1. **Constitution erstellen:** Falls noch nicht geschehen, initialisiere die Projekt-Regeln:
+   👉 `/speckit.constitution`
+   *(Nutze `docs/constitution-draft.md` als Input)*
+
+2. **Context Consolidation (WICHTIG):**
+   Kopiere den Inhalt aller freigegebenen `requirements/features/*.md` Dateien in die `specify-context.md`.
+   Dies stellt sicher, dass Spec Kit alle Details kennt.
+
+3. **Spezifikation generieren:** Führe danach diesen Befehl aus, um detaillierte Specs zu erhalten:
+   👉 `/speckit.specify`
+   *(Dies erstellt `specs/{feature}/spec.md` basierend auf dem Context)*
+
+3. **Architektur:** Sobald die Specs da sind, wechsle zum **Architect Agent**:
+   👉 Tippe: `@Architect`
 ```
-✅ Requirements Engineering abgeschlossen!
 
-**Dokumente:**
-- 📄 requirements/epics/EPIC-{XXX}.md
-- 📄 requirements/features/FEATURE-{XXX}-*.md ({Anzahl} Features)
-- 📄 requirements/handoff/architect-handoff.md
+**Wenn KEIN Spec Kit:**
+```markdown
+## 🚀 Nächste Schritte
 
-**Für Architect:**
-- ASRs: {Anzahl} Critical, {Anzahl} Moderate
-- NFRs: Alle quantifiziert
-- Constraints: {Liste}
+Die Requirements sind bereit!
 
-**Nächste Schritte:**
-→ Architect erstellt ADRs für ASRs
-→ Architect erstellt arc42 Documentation
-→ Architect erstellt plan-context.md für Spec Kit
-```
-
-### Für Spec Kit
-
-```
-**Spec Kit Integration:**
-- 📄 requirements/handoff/specify-context.md erstellt
-- ✅ Success Criteria sind tech-agnostisch
-- ✅ Prompt für /speckit.specify ready
-
-**Workflow:**
-1. /speckit.constitution (mit constitution-draft.md)
-2. /speckit.specify (mit specify-context.md prompt)
-3. → Architect Agent
-4. /speckit.plan (mit plan-context.md)
+1. **Architektur:** Wechsle nun zum **Architect Agent**, um die technische Lösung zu planen.
+   👉 Tippe: `@Architect`
 ```
 
 ---
