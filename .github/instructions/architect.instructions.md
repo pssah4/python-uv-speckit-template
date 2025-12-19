@@ -1,14 +1,14 @@
 ---
 name: Architect Quality Standards
-applyTo: "architecture/adr/**/*.md, docs/ARC42-DOCUMENTATION.md, requirements/issues/**/*.md, requirements/handoff/plan-context.md"
-description: "Qualitätsregeln für Architecture Decision Records, arc42 und ISSUE-Erstellung"
+applyTo: "architecture/adr/**/*.md, docs/ARC42-DOCUMENTATION.md, requirements/handoff/plan-context.md"
+description: "Qualitätsregeln für Architecture Decision Records, arc42 und SpecKit Integration"
 ---
 
 # Architect - Quality Standards
 
-Diese Instructions werden automatisch angewendet beim Arbeiten mit ADRs, arc42 Dokumentation und ISSUEs.
+Diese Instructions werden automatisch angewendet beim Arbeiten mit ADRs und arc42 Dokumentation.
 
-> **Ziel:** Vollständige Architektur-Dokumentation die Developer Agent UND /speckit.plan bedienen kann.
+> **Ziel:** Vollständige Architektur-Dokumentation die /speckit.plan optimal bedienen kann.
 
 ---
 
@@ -17,25 +17,19 @@ Diese Instructions werden automatisch angewendet beim Arbeiten mit ADRs, arc42 D
 ```
 ✅ architecture/adr/ADR-*.md
 ✅ docs/ARC42-DOCUMENTATION.md
-✅ requirements/issues/ISSUE-*.md
 ✅ requirements/handoff/plan-context.md
-✅ requirements/handoff/developer-handoff.md
+✅ requirements/handoff/speckit-handoff.md
 ```
 
 ---
 
 ## 🎯 Qualitätsziele
 
-### Für Developer Agent
-- ✅ ADRs erklären WARUM Entscheidungen getroffen wurden
-- ✅ ISSUEs sind atomar (1-3 Tage)
-- ✅ Jedes ISSUE referenziert relevante ADRs
-- ✅ Technical Constraints klar
-
 ### Für Spec Kit Integration
-- ✅ plan-context.md für /speckit.plan
-- ✅ ADRs als Kontext für research.md Validierung
-- ✅ arc42 Section 8 für data-model.md
+- ✅ plan-context.md enthält alle technischen Constraints für /speckit.plan
+- ✅ ADRs erklären WARUM Entscheidungen getroffen wurden (Kontext für SpecKit)
+- ✅ arc42 Section 8 liefert das Data Model für data-model.md
+- ✅ Tech Stack ist so präzise, dass SpecKit keine Annahmen treffen muss
 
 ---
 
@@ -193,131 +187,6 @@ Aktion erforderlich:
 
 ---
 
-## 🔍 ISSUE Validierung
-
-### Dateinamen-Konvention
-
-```javascript
-const pattern = /^ISSUE-\d{3}-[a-z0-9-]+\.md$/;
-
-// Gültig:
-✅ ISSUE-001-setup-project-structure.md
-✅ ISSUE-042-implement-user-login.md
-
-// Ungültig:
-❌ issue-001.md
-❌ ISSUE-1-setup.md
-```
-
-### Atomizitäts-Check (KRITISCH!)
-
-```markdown
-CHECK: Ist ISSUE atomar? (1-3 Tage)
-
-Effort-Validierung:
-✅ S (Small): < 1 Tag
-✅ M (Medium): 1-2 Tage
-✅ L (Large): 2-3 Tage
-❌ XL: > 3 Tage → MUSS aufgeteilt werden!
-
-Indikatoren für zu große ISSUEs:
-- Mehr als 5 Acceptance Criteria
-- Mehr als 3 API Endpoints
-- Mehr als 2 Entitäten betroffen
-- "und" im Titel (z.B. "Setup AND Configure AND Test")
-
-Fehlermeldung:
-❌ ISSUE nicht atomar!
-
-Datei: ISSUE-042-implement-full-user-management.md
-Effort: XL (geschätzt 5+ Tage)
-Problem: ISSUE ist zu groß
-
-Indikatoren:
-- 8 Acceptance Criteria
-- 4 API Endpoints
-- 3 Entitäten (User, Role, Permission)
-
-Aktion erforderlich:
-  Teile auf in:
-  - ISSUE-042a: Create User entity and basic CRUD
-  - ISSUE-042b: Implement Role management
-  - ISSUE-042c: Add Permission system
-  - ISSUE-042d: Connect User-Role-Permission
-```
-
-### Pflicht-Sections für ISSUEs
-
-```markdown
-CHECK beim Speichern:
-
-1. ✅ Header vollständig?
-   - Feature Reference
-   - Type: Feature/Bug/Tech Debt/Spike
-   - Effort: S/M/L
-   - Priority: P0/P1/P2
-
-2. ✅ Description vorhanden?
-
-3. ✅ Acceptance Criteria?
-   - Mindestens 2 Kriterien
-   - Alle als Checkboxen
-   - Alle testbar
-
-4. ✅ Technical Requirements?
-   - ADR References (mindestens 1)
-   - API Contract (wenn relevant)
-   - Data Model (wenn relevant)
-
-5. ✅ Implementation Notes?
-   - Suggested Approach
-   - Edge Cases
-
-6. ✅ Testing Requirements?
-   - Unit Tests definiert
-   - Integration Tests (wenn relevant)
-
-7. ✅ Dependencies?
-   - Blocks/Blocked by
-
-8. ✅ Definition of Done?
-```
-
-### ADR-Referenz Validierung
-
-```markdown
-CHECK: Referenziert ISSUE mindestens 1 ADR?
-
-ISSUE: ISSUE-042-implement-user-login.md
-
-ADR References gefunden:
-  ✅ ADR-003: Authentication Strategy
-  ✅ ADR-007: Security Architecture
-
-Status: OK - ADR References vorhanden
-
----
-
-Fehlermeldung wenn keine ADR Reference:
-⚠️ ISSUE ohne ADR Reference
-
-Datei: ISSUE-042-implement-user-login.md
-Problem: Keine ADR referenziert
-
-Empfehlung:
-  Dieses ISSUE betrifft Authentication.
-  Relevante ADRs:
-  - ADR-003: Authentication Strategy
-  - ADR-007: Security Architecture
-
-  Füge hinzu:
-  ### Architecture Constraints
-  - ADR-003: Use OAuth 2.0 with Azure AD
-  - ADR-007: All auth endpoints require TLS 1.3
-```
-
----
-
 ## 🔍 plan-context.md Validierung
 
 ### Pflicht-Sections
@@ -442,21 +311,6 @@ Nächste Schritte:
 Minimum für Approval: 70%
 ```
 
-### ISSUE Quality Score
-
-```
-| Kriterium | Gewichtung |
-|-----------|------------|
-| Atomicity (1-3 days) | 25% |
-| ADR Reference | 20% |
-| Testable AC | 20% |
-| Implementation Notes | 15% |
-| Dependencies documented | 10% |
-| DoD complete | 10% |
-
-Minimum für Approval: 75%
-```
-
 ---
 
 ## 🚫 Anti-Patterns
@@ -487,42 +341,6 @@ RICHTIG:
 - ❌ No team experience
 ```
 
-### ❌ Nicht-atomare ISSUEs
-
-```
-FALSCH:
-# ISSUE-001: Implement complete user management system
-- User CRUD
-- Role management
-- Permission system
-- Audit logging
-- User import/export
-
-RICHTIG:
-# ISSUE-001: Create User entity and repository
-# ISSUE-002: Implement User CRUD API
-# ISSUE-003: Add Role entity and association
-# ISSUE-004: Implement Permission system
-# ISSUE-005: Add audit logging for user changes
-# ISSUE-006: Create user import/export feature
-```
-
-### ❌ ISSUE ohne ADR Reference
-
-```
-FALSCH:
-## Technical Requirements
-Use whatever framework you want.
-
-RICHTIG:
-## Technical Requirements
-
-### Architecture Constraints
-- ADR-001: Use FastAPI for REST endpoints
-- ADR-002: Use SQLAlchemy 2.0 for data access
-- ADR-003: Follow repository pattern per ADR-004
-```
-
 ### ❌ plan-context.md ohne konkrete Werte
 
 ```
@@ -543,18 +361,6 @@ RICHTIG:
 
 ## ✅ Checkliste vor Handoff
 
-### An Developer Agent
-
-```
-- [ ] Alle Critical ASRs haben ADRs
-- [ ] ADRs haben vollständige Rationale
-- [ ] arc42 hat Scope-angemessene Sections
-- [ ] Alle ISSUEs sind atomar (1-3 Tage)
-- [ ] Alle ISSUEs referenzieren ADRs
-- [ ] ISSUEs sind priorisiert (P0 → P1 → P2)
-- [ ] developer-handoff.md erstellt
-```
-
 ### Für Spec Kit
 
 ```
@@ -564,10 +370,11 @@ RICHTIG:
 - [ ] Data Model definiert
 - [ ] Performance/Security mit konkreten Zahlen
 - [ ] Prompt für /speckit.plan ready
+- [ ] speckit-handoff.md erstellt
 ```
 
 ---
 
-**Version:** 2.0 (mit Spec Kit Integration)
-**Focus:** ADR-ISSUE Traceability + plan-context.md
-**Quality Gate:** Atomicity + ADR Coverage
+**Version:** 2.1 (Spec Kit Optimized)
+**Focus:** ADR Quality + plan-context.md
+**Quality Gate:** Spec Kit Readiness
