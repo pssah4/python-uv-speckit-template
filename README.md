@@ -62,7 +62,6 @@ Each agent specializes in one phase, has built-in quality checks, and produces s
 │         ↓                                                           │
 │    📄 ADR-*.md                                                      │
 │    📄 ARC42-DOCUMENTATION.md                                        │
-│    📄 ISSUE-*.md (atomic, 1-3 days)                                 │
 │    📄 plan-context.md  ←── NEU (Handoff Template)                   │
 │                                                                     │
 │  ═══════════════════════════════════════════════════════════════════│
