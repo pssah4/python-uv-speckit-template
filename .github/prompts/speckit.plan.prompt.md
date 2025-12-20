@@ -16,6 +16,7 @@ You will receive architectural context (ADRs, ARC42). You MUST follow these cons
 1. **Analyze `spec.md`:** Understand the functional requirements and user stories.
 2. **Analyze `plan-context.md`:** This contains the Architect's summary and technical directives.
 3. **Analyze ADRs:** Look for `architecture/adr/*.md` to understand specific decisions.
+4. **Analyze ARC42:** Look for `architecture/ARC42.md` to understand architecture considerations.
 
 **Output Requirements:**
 - **Phased Approach:** Break down the implementation into logical phases (Phase 0: Research, Phase 1: Core, Phase 2: UI, etc.).
